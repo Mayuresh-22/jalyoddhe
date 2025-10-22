@@ -1,0 +1,10 @@
+torch
+torchvision
+rasterio
+numpy
+scikit-learn
+scikit-image
+pandas
+tables 
+tqdm
+tensorboard
