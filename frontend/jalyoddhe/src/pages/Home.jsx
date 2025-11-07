@@ -9,7 +9,6 @@ const Home = () => {
     <div className="bg-[#031217] text-white inter-300">
       <HeroSection />
       <MapSection />
-      <FiltersOverlay />
       <DebrisCards />
     </div>
   );
