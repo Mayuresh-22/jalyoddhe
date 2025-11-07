@@ -4,19 +4,19 @@ from utils.utils import rand_str
 from utils.logger import logger
 import gdown
 
-class GDownloader:
 
+class GDownloader:
     def download(
-        self, 
-        file_id:str, 
-        file_name:str = f"aoi_{rand_str(5)}", 
-        format: str = ".tif", 
-        output_dir:str= "",
+        self,
+        file_id: str,
+        file_name: str = f"aoi_{rand_str(5)}",
+        format: str = ".tif",
+        output_dir: str = "",
     ) -> str:
         if not os.path.exists(output_dir):
             os.makedirs(output_dir, exist_ok=True)
         dest_path = os.path.join(output_dir, f"{file_name}{format}")
-        
+
         try:
             gdrive_url = f"https://drive.google.com/uc?id={file_id}"
             gdown.download(gdrive_url, format=format, output=dest_path, quiet=False)
