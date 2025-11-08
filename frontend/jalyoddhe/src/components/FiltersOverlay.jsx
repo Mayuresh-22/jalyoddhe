@@ -3,7 +3,9 @@ import { Form } from "react-bootstrap";
 
 const FiltersOverlay = () => {
   const [showFilters, setShowFilters] = useState(false);
+  const [showPlaces, setShowPlaces] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [selectedPlace, setSelectedPlace] = useState("Vembanad");
 
   const filters = [
     { name: "Marine Debris", color: "#D32F2F" },
@@ -13,6 +15,8 @@ const FiltersOverlay = () => {
     { name: "Sediment-Laden Water", color: "#EF6C00" },
     { name: "Foam", color: "#E0C097" },
   ];
+
+  const places = ["Vembanad", "Goa", "Chilika"];
 
   const toggleFilter = (name) => {
     setSelectedFilters((prev) =>
@@ -24,27 +28,41 @@ const FiltersOverlay = () => {
 
   const clearFilters = () => setSelectedFilters([]);
 
+  const selectPlace = (place) => {
+    setSelectedPlace(place);
+    setShowPlaces(false);
+  };
+
   return (
     <>
       {/* Main Overlay */}
       <div className="absolute -top-8 right-10 z-[1000] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 w-[360px]">
         <Form>
           <div className="flex items-center justify-between gap-3">
-            {/* Select Place */}
-            <Form.Group className="flex-1">
-              <Form.Select className="bg-white/70 text-black border-none focus:ring-2 focus:ring-[#00b4d8]">
-                <option>Vembanad</option>
-                <option>Goa</option>
-                <option>Chilika</option>
-              </Form.Select>
-            </Form.Group>
+            {/* Place Button */}
+            <div className="flex-1 relative">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPlaces(!showPlaces);
+                  setShowFilters(false);
+                }}
+                className="w-full bg-white/70 hover:bg-white/90 text-black font-medium py-2 px-4 rounded-2xl shadow-sm transition-all duration-200 text-sm"
+                style={{ borderRadius: "9999px" }}
+              >
+                {selectedPlace}
+              </button>
+            </div>
 
             {/* Filters Button */}
             <div className="flex-1 relative">
               <button
                 type="button"
-                onClick={() => setShowFilters(!showFilters)}
-                className="w-full bg-[#0077b6] hover:bg-[#00b4d8] text-white  font-semibold py-2 px-4 rounded-2xl shadow-md transition-all duration-200 ease-in-out"
+                onClick={() => {
+                  setShowFilters(!showFilters);
+                  setShowPlaces(false);
+                }}
+                className="w-full bg-[#0077b6] hover:bg-[#00b4d8] text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition-all duration-200 ease-in-out"
                 style={{ borderRadius: "9999px" }}
               >
                 {selectedFilters.length > 0
@@ -56,7 +74,41 @@ const FiltersOverlay = () => {
         </Form>
       </div>
 
-      {/* Dropdown rendered outside for real glass effect */}
+      {/* --- Floating Places Dropdown --- */}
+      {showPlaces && (
+        <div className="absolute top-[50px] right-10 w-[270px] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 z-[2000] transition-all duration-200 ease-in-out">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-[#0077b6] font-semibold text-sm">
+              Select Location
+            </span>
+            <button
+              onClick={() => setShowPlaces(false)}
+              className="text-lg text-gray-600 hover:text-black"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Places List */}
+          <div className="flex flex-col py-1 max-h-[50%] overflow-y-auto">
+            {places.map((place) => (
+              <div
+                key={place}
+                className={`px-4 py-2 cursor-pointer text-sm transition-all rounded-md ${
+                  selectedPlace === place
+                    ? "bg-[#00b4d8]/30 text-[#0077b6] font-medium"
+                    : "text-black hover:bg-white/80"
+                }`}
+                onClick={() => selectPlace(place)}
+              >
+                {place}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* --- Floating Filters Dropdown --- */}
       {showFilters && (
         <div className="absolute top-[50px] right-10 w-[270px] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 z-[2000] transition-all duration-200 ease-in-out">
           <div className="flex justify-between items-center mb-2">
