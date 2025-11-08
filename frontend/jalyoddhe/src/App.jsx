@@ -1,49 +1,46 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import NavbarComponent from "./components/Navbar";
 import Home from "./pages/Home";
 import AdminLogin from "./pages/AdminLogin";
+import About from "./pages/About";
 import Footer from "./components/Footer";
 import ChatAgent from "./components/ChatAgent";
 
-function Layout() {
+function AppContent() {
   const location = useLocation();
+
+  // Page checks
   const isLoginPage = location.pathname === "/admin/login";
+  const isAboutPage = location.pathname === "/about";
 
   return (
-    <div className="relative min-h-screen bg-[#031217] text-white flex flex-col">
-      {/* Navbar changes depending on page */}
-      <NavbarComponent isLoginPage={isLoginPage} />
+    <div className="relative min-h-screen bg-[#031217] text-white inter-300">
+      {/* Navbar */}
+      <NavbarComponent isLoginPage={isLoginPage || isAboutPage} />
 
       {/* Page Content */}
-      <div className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
 
-      {/* Footer + Chat only on Home */}
-      {!isLoginPage && (
-        <>
-          <Footer />
-          <ChatAgent />
-        </>
-      )}
+      {/* Floating Chat (hide on login/about) */}
+      {!isLoginPage && !isAboutPage && <ChatAgent />}
+
+      {/* Footer (show for Home + About, hide only on Login) */}
+      {!isLoginPage && <Footer />}
     </div>
   );
 }
 
-export default function App() {
+function App() {
   return (
     <Router>
-      <Layout />
+      <AppContent />
     </Router>
   );
 }
+
+export default App;

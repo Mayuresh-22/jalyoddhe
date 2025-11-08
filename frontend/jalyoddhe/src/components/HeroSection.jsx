@@ -2,6 +2,17 @@ import React from "react";
 import heroImage from "../assets/hero.png";
 
 const HeroSection = () => {
+  // Smooth scroll to debris section
+  const scrollToDebris = () => {
+    const debrisSection = document.getElementById("debris");
+    if (debrisSection) {
+      const yOffset = -80; // offset for navbar
+      const yPosition =
+        debrisSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: yPosition, behavior: "smooth" });
+    }
+  };
+
   return (
     <section
       className="relative h-screen w-full bg-cover bg-center flex items-center justify-center overflow-hidden"
@@ -15,9 +26,13 @@ const HeroSection = () => {
             From Space to Shore – Detect, Protect, Restore.
           </h1>
           <p className="text-lg sm:text-xl font-light mb-8 text-[#caf0f8]">
-            If satellites can see the stars light-years away… shouldn’t we use them to clean our waters right here at home?
+            If satellites can see the stars light-years away… shouldn’t we use them
+            to clean our waters right here at home?
           </p>
-          <button className="bg-gradient-to-r from-[#0077b6] to-[#00b4d8] text-white py-3 px-8 text-base rounded-5 font-medium transition-all duration-300 hover:from-[#00b4d8] hover:to-[#0077b6] hover:scale-105">
+          <button
+            onClick={scrollToDebris}
+            className="bg-gradient-to-r from-[#0077b6] to-[#00b4d8] text-white py-3 px-8 text-base rounded-5 font-medium transition-all duration-300 hover:from-[#00b4d8] hover:to-[#0077b6] hover:scale-105"
+          >
             Explore Insights
           </button>
         </div>

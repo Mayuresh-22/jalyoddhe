@@ -82,7 +82,7 @@ const AdminLogin = () => {
             {/* Login Button */}
             <button
               type="submit"
-              className="!w-full !bg-[#0077b6] !hover:bg-[#00b4d8] !text-white !font-semibold !py-2 !px-4 !rounded-3xl !shadow-md !transition-all !duration-200 !ease-in-out mt-2"
+              className="!w-full bg-[#0077b6] hover:bg-[#00b4d8] !text-white !font-semibold !py-2 !px-4 !rounded-3xl !shadow-md !transition-all !duration-200 !ease-in-out mt-2"
             >
               Login
             </button>
