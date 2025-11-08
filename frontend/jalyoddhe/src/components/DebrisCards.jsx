@@ -2,6 +2,17 @@ import React, { useState } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import pin from "../assets/pin.png";
 
+// Available filter labels and their colors (reuse from FiltersOverlay)
+const labelColors = {
+  "Marine Debris": "#D32F2F",
+  "Dense Sargassum": "#1B5E20",
+  "Sparse Sargassum": "#43A047",
+  "Natural Organic Material": "#8D6E63",
+  "Sediment-Laden Water": "#EF6C00",
+  "Foam": "#E0C097",
+};
+
+// Example debris data (with multiple labels per tile)
 const debrisData = [
   {
     coordinates: [
@@ -10,10 +21,9 @@ const debrisData = [
       { lat: "9.65°N", lon: "76.35°E" },
       { lat: "9.65°N", lon: "76.45°E" },
     ],
-    level: "High",
+    labels: ["Marine Debris", "Foam", "Dense Sargassum"],
     confidence: "92%",
-    description:
-      "Heavy accumulation of marine debris detected in this tile region. Requires immediate attention for cleanup operations.",
+    lastupdated: "2024-06-15",
   },
   {
     coordinates: [
@@ -22,10 +32,9 @@ const debrisData = [
       { lat: "15.35°N", lon: "73.75°E" },
       { lat: "15.35°N", lon: "73.85°E" },
     ],
-    level: "Medium",
+    labels: ["Sparse Sargassum", "Sediment-Laden Water"],
     confidence: "75%",
-    description:
-      "Moderate debris detected in this tile. Periodic cleanup recommended to prevent further accumulation.",
+    lastupdated: "2024-06-15",
   },
   {
     coordinates: [
@@ -34,48 +43,19 @@ const debrisData = [
       { lat: "19.75°N", lon: "85.40°E" },
       { lat: "19.75°N", lon: "85.50°E" },
     ],
-    level: "Low",
-    confidence: "60%",
-    description:
-      "Minor traces of debris observed in this region. Monitoring advised but not critical.",
-  },
-  {
-    coordinates: [
-      { lat: "19.85°N", lon: "85.40°E" },
-      { lat: "19.85°N", lon: "85.50°E" },
-      { lat: "19.75°N", lon: "85.40°E" },
-      { lat: "19.75°N", lon: "85.50°E" },
-    ],
-    level: "Low",
-    confidence: "60%",
-    description:
-      "Minor traces of debris observed in this region. Monitoring advised but not critical.",
-  },
-  {
-    coordinates: [
-      { lat: "19.85°N", lon: "85.40°E" },
-      { lat: "19.85°N", lon: "85.50°E" },
-      { lat: "19.75°N", lon: "85.40°E" },
-      { lat: "19.75°N", lon: "85.50°E" },
-    ],
-    level: "Low",
-    confidence: "60%",
-    description:
-      "Minor traces of debris observed in this region. Monitoring advised but not critical.",
+    labels: ["Natural Organic Material"],
+    confidence: "60%", 
+    lastupdated: "2024-06-15",
   },
 ];
 
-// Helper function to calculate the midpoint of the 4 coordinates
+// Helper to compute midpoint
 const calculateMidpoint = (coords) => {
-  // Extract numeric lat/lon values (ignoring N/E)
   const lats = coords.map((c) => parseFloat(c.lat));
   const lons = coords.map((c) => parseFloat(c.lon));
-
-  // Calculate averages
   const avgLat = lats.reduce((a, b) => a + b, 0) / lats.length;
   const avgLon = lons.reduce((a, b) => a + b, 0) / lons.length;
 
-  // Format with 2 decimal places + direction suffix
   return {
     lat: `${avgLat.toFixed(2)}°N`,
     lon: `${avgLon.toFixed(2)}°E`,
@@ -88,14 +68,14 @@ const DebrisCards = () => {
   return (
     <Container
       fluid
-      className="mt-15 px-5 py-4 border-white/40 border rounded-4xl bg-white/10 backdrop-blur-lg "
+      className="mt-15 px-5 py-4 rounded-4xl bg-white/10 backdrop-blur-lg "
     >
-      <Row className="border-white/40">
+      <Row className="border-white/10">
         <h3 className="text-lg mb-4 fw-bold text-[#0077b6] ">
           Detected Tiles
         </h3>
 
-        {/* Left Side – Card List */}
+        {/* LEFT SIDE - Tile Cards */}
         <Col
           md={5}
           className="overflow-y-auto h-[80vh] pe-4 border-end border-gray-300"
@@ -118,7 +98,7 @@ const DebrisCards = () => {
                   className={`transition-all duration-300 ${isSelected ? "text-gray-800" : "text-white"
                     }`}
                 >
-                  {/* Icon with background */}
+                  {/* Icon + Title */}
                   <div className="flex items-center mb-2">
                     <div className="bg-[#0077b6] rounded-full p-2 mr-3 flex items-center justify-center shadow-md">
                       <img
@@ -128,86 +108,130 @@ const DebrisCards = () => {
                       />
                     </div>
                     <div
-                      className={`text-sm font-bold ${isSelected ? "text-gray-800" : "text-white"
+                      className={`text-m font-bold ${isSelected ? "text-gray-800" : "text-white"
                         }`}
                     >
                       Tile coordinates: {midpoint.lat}, {midpoint.lon}
                     </div>
                   </div>
 
-                  <div className="mt-3">
-                    <Card.Text className="mb-1">
-                      <strong>Label:</strong> {debris.level}
-                    </Card.Text>
-                    <Card.Text className="mb-0">
-                      <strong>Confidence:</strong> {debris.confidence}
-                    </Card.Text>
+                  {/* Labels */}
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {debris.labels.map((label) => (
+                      <span
+                        key={label}
+                        className="text-xs px-2.5 py-1 rounded-full font-medium shadow-sm"
+                        style={{
+                          backgroundColor: labelColors[label],
+                          color: "#fff",
+                        }}
+                      >
+                        {label}
+                      </span>
+                    ))}
                   </div>
+
+                  {/* Confidence */}
+                  <Card.Text className="mt-2 mb-0 text-sm font-medium">
+                    <strong>Confidence:</strong> {debris.confidence}
+                  </Card.Text>
                 </Card.Body>
               </Card>
             );
           })}
         </Col>
 
-        {/* Right Side – Details */}
+        {/* RIGHT SIDE - Detailed Info */}
         <Col md={7} className="ps-4">
-          <Card className="!shadow-3xl !border-0 !rounded-3xl">
-            <Card.Body>
-              <div className="flex items-center mb-3">
-                <div className="bg-[#0077b6] rounded-full p-2 mr-3 flex items-center justify-center shadow-md">
+          <Card className="!rounded-[2rem] !bg-white/10 !text-white !backdrop-blur-lg shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-500 hover:shadow-[0_6px_40px_rgba(0,0,0,0.15)]">
+            <Card.Body className="p-6 md:p-8">
+              {/* Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-[#0077b6] rounded-full p-3 flex items-center justify-center shadow-lg">
                   <img
                     src={pin}
                     alt="pin"
-                    className="h-4 w-4 object-contain filter brightness-0 invert"
+                    className="h-5 w-5 object-contain filter brightness-0 invert"
                   />
                 </div>
-                <h4 className="text-[#0077b6] fw-semibold mb-0">
-                  {" "}
-                  {(() => {
-                    const { lat, lon } = calculateMidpoint(
-                      debrisData[selectedIndex].coordinates
-                    );
-                    return `${lat}, ${lon}`;
-                  })()}
-                </h4>
+                <div>
+                  <h4 className="text-[#0077b6] text-xl text-white md:text-2xl font-semibold tracking-tight mb-0">
+                    {(() => {
+                      const { lat, lon } = calculateMidpoint(
+                        debrisData[selectedIndex].coordinates
+                      );
+                      return `${lat}, ${lon}`;
+                    })()}
+                  </h4>
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-sm mb-3 text-gray-800">
-                {debrisData[selectedIndex].coordinates.map((coord, i) => (
-                  <div key={i}>
-                    <strong>Lat:</strong> {coord.lat} |{" "}
-                    <strong>Lon:</strong> {coord.lon}
-                  </div>
-                ))}
+              {/* Subsection: Area of Tile */}
+              <div className="mb-6">
+                <p className="text-[#ffffff] font-medium text-m tracking-wide mb-2">
+                  Area of Tile
+                </p>
+                <div className="grid grid-cols-2 gap-2 !bg-white/40 rounded-3xl px-4 py-4 shadow-xl text-[0.9rem] text-black">
+                  {debrisData[selectedIndex].coordinates.map((coord, i) => (
+                    <div key={i} className="flex justify-space-evenly gap-3">
+                      <span className="font-medium">Lat: {coord.lat} </span>
+                      <span className="font-medium">Lon: {coord.lon}</span>
+                      <span></span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <p className="mt-2 mb-1">
-                <strong>Level:</strong> {debrisData[selectedIndex].level}
-              </p>
-              <p className="mb-1">
-                <strong>Confidence:</strong>{" "}
-                {debrisData[selectedIndex].confidence}
-              </p>
-              <p className="mt-3 text-gray-700">
-                {debrisData[selectedIndex].description}
-              </p>
+              {/* Subsection: Labels */}
+              <div className="mb-4">
+                <p className="text-[#ffffff] font-medium text-m tracking-wide mb-2">
+                  Detected Labels
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {debrisData[selectedIndex].labels.map((label) => (
+                    <span
+                      key={label}
+                      className="text-xs md:text-sm px-3 py-1.5 rounded-full font-medium shadow-sm transition-all duration-200 hover:scale-[1.05]"
+                      style={{
+                        backgroundColor: labelColors[label],
+                        color: "#fff",
+                      }}
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Confidence + Description */}
+              <div className="border-t border-white/80 ">
+                <p className="text-[#ffffff] my-3 text-[0.95rem]">
+                  <strong className="fw-semibold">Confidence:</strong>{" "}
+                  <span className="text-[#ffffff] font-light">
+                    {debrisData[selectedIndex].confidence}
+                  </span>
+                </p>
+                <p className="text-[#ffffff] text-[0.95rem]">
+                  <strong className="fw-semibold">Last Updated:</strong>{" "}
+                  <span className="text-[#ffffff] font-light">
+                    {debrisData[selectedIndex].lastupdated}
+                  </span>
+                </p>
+              </div>
             </Card.Body>
           </Card>
-          <div className="flex flex-wrap gap-3 mt-4 justify-center">
-              <button className="flex items-center gap-1 px-3 py-2 !rounded-xl bg-white/10 hover:bg-white/50 border border-white/20 text-white transition-all duration-200">
-                Send Alert
-              </button>
-              <button className="flex items-center gap-1 px-3 py-2 !rounded-xl bg-white/10 hover:bg-white/50 border border-white/20 text-white transition-all duration-200">
-                Mark as Cleaned
-              </button>
-              <button className="flex items-center gap-1 px-3 py-2 !rounded-xl bg-white/10 hover:bg-white/50 border border-white/20 text-white transition-all duration-200">
-                View on Map
-              </button>
-              <button className="flex items-center gap-1 px-3 py-2 !rounded-xl bg-white/10 hover:bg-white/50 border border-white/20 text-white transition-all duration-200">
-                Generate Report
-              </button>
-            </div>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-4 mt-6 justify-center">
+            <button className="flex items-center gap-2 px-5 py-2.5 !rounded-3xl bg-[#0077b6] hover:bg-[#0096c7] text-white text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03]">
+              View on Map
+            </button>
+            <button className="flex items-center gap-2 px-5 py-2.5 !rounded-3xl bg-white/10 hover:bg-white/30 text-[#ffffff] border border-white/20 text-sm font-medium transition-all duration-300 hover:shadow-md hover:scale-[1.03]">
+              Generate Report
+            </button>
+          </div>
         </Col>
+
       </Row>
     </Container>
   );
