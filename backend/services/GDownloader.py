@@ -16,6 +16,9 @@ class GDownloader:
         if not os.path.exists(output_dir):
             os.makedirs(output_dir, exist_ok=True)
         dest_path = os.path.join(output_dir, f"{file_name}{format}")
+        
+        if os.path.exists(dest_path):
+            return dest_path
 
         try:
             gdrive_url = f"https://drive.google.com/uc?id={file_id}"
