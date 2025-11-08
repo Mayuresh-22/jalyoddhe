@@ -1,8 +1,22 @@
 import React from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const NavbarComponent = () => {
+const NavbarComponent = ({ isLoginPage }) => {
+  const navigate = useNavigate();
+
+  // Smooth scroll with offset for sections
+  const handleScroll = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const yOffset = -80;
+      const yPosition =
+        section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: yPosition, behavior: "smooth" });
+    }
+  };
+
   return (
     <Navbar
       expand="lg"
@@ -12,46 +26,51 @@ const NavbarComponent = () => {
       <Container>
         {/* Brand */}
         <Navbar.Brand
-          href="#"
-          className="flex items-center text-white font-semibold text-lg"
+          onClick={() => navigate("/")}
+          className="flex items-center text-white font-semibold text-lg cursor-pointer"
         >
-          {logo && (
-            <img
-              src={logo}
-              alt="logo"
-              className="h-9 w-9 object-contain mr-2"
-            />
-          )}
+          {logo && <img src={logo} alt="logo" className="h-9 w-9 object-contain mr-2" />}
           Jalyoddhe
         </Navbar.Brand>
 
-        {/* Toggle */}
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           className="bg-white/30 border-none focus:ring-2 focus:ring-white/40"
         />
 
-        {/* Collapse Menu */}
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto flex items-center space-x-5">
-            <Nav.Link
-              href="#map"
-              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px] no-underline"
-            >
-              Map
-            </Nav.Link>
-
-            <Nav.Link
-              href="#debris"
-              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px] no-underline"
-            >
-              Debris List
-            </Nav.Link>
-
-            {/* Login Button */}
-            <button className="flex items-center gap-2 px-4 py-1.5 !rounded-3xl bg-[#0077b6] hover:bg-[#0096c7] text-white text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03]">
-              Login
-            </button>
+            {isLoginPage ? (
+              // 🧭 Minimal Navbar (Login Page)
+              <button
+                onClick={() => navigate("/")}
+                className="w-full !bg-[#0077b6] !hover:bg-[#00b4d8] !text-white !font-semibold !py-1 !px-4 !rounded-3xl !shadow-md !transition-all !duration-200 !ease-in-out"
+              >
+                Home
+              </button>
+            ) : (
+              // 🧭 Full Navbar (Home Page)
+              <>
+                <Nav.Link
+                  onClick={() => handleScroll("map")}
+                  className="!text-white font-medium hover:!text-[#caf0f8] cursor-pointer no-underline"
+                >
+                  Map
+                </Nav.Link>
+                <Nav.Link
+                  onClick={() => handleScroll("debris")}
+                  className="!text-white font-medium hover:!text-[#caf0f8] cursor-pointer no-underline whitespace-nowrap"
+                >
+                  Debris List
+                </Nav.Link>
+                <button
+                  onClick={() => navigate("/admin/login")}
+                  className="!w-full !bg-[#0077b6] !hover:bg-[#00b4d8] !text-white !font-semibold !py-1 !px-4 !rounded-3xl !shadow-md !transition-all !duration-200 !ease-in-out"
+                >
+                  Login
+                </button>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

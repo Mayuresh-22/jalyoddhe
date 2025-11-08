@@ -9,9 +9,16 @@ const Home = () => {
   return (
     <div className="bg-[#031217] text-white inter-300">
       <HeroSection />
+
       <div className="px-10">
-        <MapSection />
-        <DebrisCards />
+        {/* Add IDs here */}
+        <section id="map">
+          <MapSection />
+        </section>
+
+        <section id="debris">
+          <DebrisCards />
+        </section>
       </div>
     </div>
   );

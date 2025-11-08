@@ -1,27 +1,49 @@
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import NavbarComponent from "./components/Navbar";
 import Home from "./pages/Home";
+import AdminLogin from "./pages/AdminLogin";
 import Footer from "./components/Footer";
 import ChatAgent from "./components/ChatAgent";
 
-function App() {
+function Layout() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/admin/login";
+
   return (
-    <div className="relative min-h-screen bg-[#031217] text-white inter-300">
-      {/* Navbar */}
-      <NavbarComponent />
+    <div className="relative min-h-screen bg-[#031217] text-white flex flex-col">
+      {/* Navbar changes depending on page */}
+      <NavbarComponent isLoginPage={isLoginPage} />
 
       {/* Page Content */}
-      <Home />
+      <div className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+        </Routes>
+      </div>
 
-      {/* Floating Chat Bubble */}
-      <ChatAgent />
-
-      {/* Footer */}
-      <Footer />
-
-      
+      {/* Footer + Chat only on Home */}
+      {!isLoginPage && (
+        <>
+          <Footer />
+          <ChatAgent />
+        </>
+      )}
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <Layout />
+    </Router>
+  );
+}
