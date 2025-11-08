@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import logo from "../assets/logo.png";
 
 const NavbarComponent = () => {
@@ -33,25 +33,25 @@ const NavbarComponent = () => {
 
         {/* Collapse Menu */}
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto flex items-center space-x-4">
+          <Nav className="ms-auto flex items-center space-x-5">
             <Nav.Link
               href="#map"
-              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px]"
+              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px] no-underline"
             >
               Map
             </Nav.Link>
-            <Nav.Link
-              href="#filters"
-              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px]"
-            >
-              Filters
-            </Nav.Link>
+
             <Nav.Link
               href="#debris"
-              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px]"
+              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px] no-underline"
             >
               Debris List
             </Nav.Link>
+
+            {/* Login Button */}
+            <button className="flex items-center gap-2 px-4 py-1.5 !rounded-3xl bg-[#0077b6] hover:bg-[#0096c7] text-white text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03]">
+              Login
+            </button>
           </Nav>
         </Navbar.Collapse>
       </Container>

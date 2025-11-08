@@ -2,6 +2,7 @@ import React from "react";
 import HeroSection from "../components/HeroSection";
 import MapSection from "../components/MapSection";
 import DebrisCards from "../components/DebrisCards";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
         <MapSection />
         <DebrisCards />
       </div>
+      <Footer />
     </div>
   );
 };
