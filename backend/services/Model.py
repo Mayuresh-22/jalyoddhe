@@ -1,15 +1,15 @@
 import os
 from os.path import dirname as up
 from typing import Literal
-
 import torch
 from nn_models.classification.resnet import ResNet
 from schemas.models import AvailableModels, ModelEntry
+from utils.logger import logger
 
 available_models = AvailableModels(
     classification={
         "resnet50": ModelEntry(
-            path=os.path.join(up(up(__file__)), "models", "resnet50.pth"), class_=ResNet
+            path=os.path.join(up(up(__file__)), "saved_models", "resnet50_v1.pth"), class_=ResNet
         )
     }
 )
@@ -22,6 +22,14 @@ class Model:
         self.task = task
         self.model_type = model_type
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        logger.info(
+            f"Initializing Model with task: {self.task}, model_type: {self.model_type}, device: {self.device}"
+        )
+        self.load_model()
+        logger.info(f"Model loaded successfully on device: {self.device}")
+        
+    def __str__(self) -> str:
+        return f"Model(task={self.task}, model_type={self.model_type}, device={self.device})"
 
     def load_model(self):
         model_config = None
@@ -43,7 +51,7 @@ class Model:
 
         self.model.eval()
 
-    def inference(self, tile):
+    def inference(self, tile: torch.Tensor):
         with torch.no_grad():
             tile.to(self.device)
             logits = self.model(tile)
