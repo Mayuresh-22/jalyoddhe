@@ -3,6 +3,7 @@ import HeroSection from "../components/HeroSection";
 import MapSection from "../components/MapSection";
 import DebrisCards from "../components/DebrisCards";
 import Footer from "../components/Footer";
+import ChatAgent from "../components/ChatAgent";
 
 const Home = () => {
   return (
@@ -12,7 +13,6 @@ const Home = () => {
         <MapSection />
         <DebrisCards />
       </div>
-      <Footer />
     </div>
   );
 };
