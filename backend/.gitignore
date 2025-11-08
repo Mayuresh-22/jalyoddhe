@@ -1,0 +1,17 @@
+# all python cache files
+__pycache__/
+*.py[cod]
+
+# ignore env files
+.*env
+
+# ignore log files
+*.log
+
+# aoi and tiles files
+*.tif
+*.tiff
+
+# ignore model files
+*.pt
+*.pth
