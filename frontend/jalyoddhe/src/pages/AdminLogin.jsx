@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Correct import
+import { useNavigate } from "react-router-dom";
 import loginIllustration from "../assets/hero.jpg";
+import PrimaryButton from "../components/PrimaryButton"; // ✅ Import reusable button
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // ✅ Use navigate hook
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email === "admin@example.com" && password === "admin123") {
-      navigate("/admin/dashboard"); // ✅ Correct usage
-    } else {
-      setError("Invalid email or password");
-    }
+    setError("");
+    setIsLoading(true);
+
+    setTimeout(() => {
+      if (email === "admin@example.com" && password === "admin123") {
+        navigate("/admin/dashboard");
+      } else {
+        setError("Invalid email or password");
+      }
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -63,7 +71,7 @@ const AdminLogin = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="!peer !w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:ring-2 focus:ring-[#00b4d8] focus:border-transparent outline-none placeholder-gray-400 transition-all duration-300"
+                className="!w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:!ring-2 focus:!ring-[#00b4d8] focus:!border-transparent outline-none placeholder-gray-400 transition-all duration-300"
                 placeholder="Email"
               />
             </div>
@@ -76,18 +84,18 @@ const AdminLogin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="!peer !w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:ring-2 focus:ring-[#00b4d8] focus:border-transparent outline-none placeholder-gray-400 transition-all duration-300"
+                className="!w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:!ring-2 focus:!ring-[#00b4d8] focus:!border-transparent outline-none placeholder-gray-400 transition-all duration-300"
                 placeholder="Password"
               />
             </div>
 
-            {/* Login Button */}
-            <button
-              type="submit"
-              className="!w-full bg-[#0077b6] hover:bg-[#00b4d8] !text-white !font-semibold !py-2 !px-4 !rounded-3xl !shadow-md !transition-all !duration-200 !ease-in-out mt-2"
-            >
-              Login
-            </button>
+            {/* ✅ Replaced old button with PrimaryButton */}
+            <PrimaryButton
+              text="Login"
+              onClick={handleSubmit}
+              disabled={isLoading}
+              className="!mt-2 !w-full"
+            />
 
             {/* Forgot Password */}
             <p className="text-right text-gray-400 text-xs mt-2 hover:text-[#00b4d8] cursor-pointer transition-all duration-200">

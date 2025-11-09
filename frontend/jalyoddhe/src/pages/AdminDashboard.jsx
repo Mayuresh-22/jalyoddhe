@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NavbarComponent from "../components/Navbar";
+import PrimaryButton from "../components/PrimaryButton"; // ✅ reusable button
 
 const AdminDashboard = () => {
   const [aoiList, setAoiList] = useState([
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
       {/* Main Dashboard Layout */}
       <div className="!px-10 !pt-24 !pb-4 !space-y-12">
         {/* Header */}
-        <section className="!mb-10 px-4">
+        <section className="!mb-10 !px-4">
           <h1 className="!text-3xl !font-semibold !text-white/90 !mb-2">
             Welcome to Jalyoddhe’s Dashboard
           </h1>
@@ -72,7 +73,6 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Divider */}
           <hr className="!border-t !border-white/60" />
 
           {/* Update AOIs */}
@@ -82,7 +82,6 @@ const AdminDashboard = () => {
             </h2>
 
             <form onSubmit={handleUpdate} className="!space-y-5">
-              {/* Scrollable AOI list */}
               <div className="!space-y-4 !max-h-[250px] !overflow-y-auto !px-2 custom-scrollbar">
                 {aoiList.map((aoi, index) => (
                   <div key={index}>
@@ -94,7 +93,7 @@ const AdminDashboard = () => {
                         onChange={(e) =>
                           handleAOIChange(index, "name", e.target.value)
                         }
-                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 !px-6 !border !border-white/10 !shadow-[0_2px_15px_rgba(255,255,255,0.05)] !transition-all !hover:bg-white/20"
+                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 !px-6 !border !border-white/10 !shadow-[0_2px_15px_rgba(255,255,255,0.05)] !transition-all hover:!bg-white/20"
                       />
                       <input
                         type="text"
@@ -119,7 +118,6 @@ const AdminDashboard = () => {
                 ))}
               </div>
 
-              {/* Buttons */}
               <div className="!flex !justify-between !items-center">
                 <button
                   type="button"
@@ -129,18 +127,12 @@ const AdminDashboard = () => {
                   + Add AOI
                 </button>
 
-                {/* Update Button - Matches “View on Map” */}
-                <button
-                  type="submit"
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 !rounded-3xl bg-[#0077b6] hover:bg-[#005c8a] text-white text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03]"
-                >
-                  Update
-                </button>
+                {/* ✅ Reusable Button */}
+                <PrimaryButton type="submit" text="Update" />
               </div>
             </form>
           </div>
 
-          {/* Divider */}
           <hr className="!border-t !border-white/60" />
 
           {/* Start Inference */}
@@ -175,18 +167,13 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* Start Inference Button - Matches “View on Map” */}
-            <button
+            {/* ✅ Reusable Button */}
+            <PrimaryButton
+              text="Start Inference Pipeline"
               onClick={handleStartInference}
               disabled={isProcessing}
-              className={`flex w-full items-center justify-center gap-2 px-5 py-2.5 !rounded-3xl text-white text-sm font-medium shadow-md transition-all duration-300 ${
-                isProcessing
-                  ? "!bg-gray-600 !cursor-not-allowed"
-                  : "bg-[#0077b6] hover:bg-[#005c8a] hover:shadow-lg hover:scale-[1.01]"
-              }`}
-            >
-              {isProcessing ? "Processing..." : "Start Inference Pipeline"}
-            </button>
+              fullWidth
+            />
           </div>
         </section>
       </div>
@@ -195,4 +182,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import pin from "../assets/pin.png";
+import PrimaryButton from "../components/PrimaryButton";
+import SecondaryButton from "../components/SecondaryButton";
 
 // Available filter labels and their colors (reuse from FiltersOverlay)
 const labelColors = {
@@ -44,7 +46,7 @@ const debrisData = [
       { lat: "19.75°N", lon: "85.50°E" },
     ],
     labels: ["Natural Organic Material"],
-    confidence: "60%", 
+    confidence: "60%",
     lastupdated: "2024-06-15",
   },
 ];
@@ -222,14 +224,11 @@ const DebrisCards = () => {
           </Card>
 
           {/* Buttons */}
-          <div className="flex flex-wrap gap-4 mt-6 justify-center">
-            <button className="flex items-center gap-2 px-5 py-2.5 !rounded-3xl bg-[#0077b6] hover:bg-[#0096c7] text-white text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03]">
-              View on Map
-            </button>
-            <button className="flex items-center gap-2 px-5 py-2.5 !rounded-3xl bg-white/10 hover:bg-white/30 text-[#ffffff] border border-white/20 text-sm font-medium transition-all duration-300 hover:shadow-md hover:scale-[1.03]">
-              Generate Report
-            </button>
-          </div>
+<div className="flex flex-wrap gap-4 mt-6 justify-center">
+  <PrimaryButton text="View on Map" wide onClick={() => alert("Opening map...")} />
+  <SecondaryButton text="Generate Report" onClick={() => alert("Generating Report...")} />
+</div>
+
         </Col>
 
       </Row>

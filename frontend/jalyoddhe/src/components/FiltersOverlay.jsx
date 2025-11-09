@@ -62,7 +62,7 @@ const FiltersOverlay = () => {
                   setShowFilters(!showFilters);
                   setShowPlaces(false);
                 }}
-                className="w-full bg-[#0077b6] hover:bg-[#00b4d8] text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition-all duration-200 ease-in-out"
+                className="w-full bg-[#0077b6] hover:bg-[#005c8a] text-white font-semibold py-2 px-4 rounded-2xl shadow-md transition-all duration-200 ease-in-out"
                 style={{ borderRadius: "9999px" }}
               >
                 {selectedFilters.length > 0

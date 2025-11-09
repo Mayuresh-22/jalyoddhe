@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import PrimaryButton from "../components/PrimaryButton"; // ✅ import reusable button
 
 const NavbarComponent = ({ isLoginPage, isDashboardPage }) => {
   const navigate = useNavigate();
@@ -49,19 +50,16 @@ const NavbarComponent = ({ isLoginPage, isDashboardPage }) => {
           <Nav className="!ms-auto !flex !items-center !space-x-5">
             {isDashboardPage ? (
               // Admin Dashboard Navbar
-              <button
+              <PrimaryButton
+                text="Logout"
                 onClick={() => navigate("/admin/login")}
-                className="!px-4 !py-1.5 !rounded-3xl !bg-[#0077b6] hover:!bg-[#00b4d8] !text-white !text-sm !font-medium !shadow-md !transition-all !duration-300"
-              >
-                Logout
-              </button>
+              />
             ) : isLoginPage ? (
-              <button
+              // Login Page Navbar
+              <PrimaryButton
+                text="Home"
                 onClick={() => navigate("/")}
-                className="!px-4 !py-1.5 !rounded-3xl !bg-[#0077b6] hover:!bg-[#00b4d8] !text-white !text-sm !font-medium !shadow-md !transition-all !duration-300"
-              >
-                Home
-              </button>
+              />
             ) : (
               // Home Page Navbar
               <>
@@ -79,12 +77,10 @@ const NavbarComponent = ({ isLoginPage, isDashboardPage }) => {
                   Debris List
                 </Nav.Link>
 
-                <button
+                <PrimaryButton
+                  text="Login"
                   onClick={() => navigate("/admin/login")}
-                  className="!px-4 !py-1.5 !rounded-3xl !bg-[#0077b6] hover:!bg-[#00b4d8] !text-white !text-sm !font-medium !shadow-md !transition-all !duration-300"
-                >
-                  Login
-                </button>
+                />
               </>
             )}
           </Nav>
