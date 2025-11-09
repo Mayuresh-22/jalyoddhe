@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import loginIllustration from "../assets/hero.jpg"; // Replace with your own image
+import { useNavigate } from "react-router-dom"; // ✅ Correct import
+import loginIllustration from "../assets/hero.jpg";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // ✅ Use navigate hook
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email === "admin@example.com" && password === "admin123") {
-      alert("Login successful (redirect to dashboard soon)");
+      navigate("/admin/dashboard"); // ✅ Correct usage
     } else {
       setError("Invalid email or password");
     }
@@ -96,6 +98,6 @@ const AdminLogin = () => {
       </div>
     </div>
   );
-};  
+};
 
 export default AdminLogin;

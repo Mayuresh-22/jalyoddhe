@@ -6,31 +6,38 @@ import AdminLogin from "./pages/AdminLogin";
 import About from "./pages/About";
 import Footer from "./components/Footer";
 import ChatAgent from "./components/ChatAgent";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function AppContent() {
   const location = useLocation();
 
-  // Page checks
+  // Define page types
   const isLoginPage = location.pathname === "/admin/login";
   const isAboutPage = location.pathname === "/about";
+  const isDashboardPage = location.pathname === "/admin/dashboard";
+
+  // Only hide footer/chat on login page
+  const hideFooterAndChat = isLoginPage;
 
   return (
     <div className="relative min-h-screen bg-[#031217] text-white inter-300">
-      {/* Navbar */}
-      <NavbarComponent isLoginPage={isLoginPage || isAboutPage} />
+      {/*Pass correct props to Navbar */}
+      <NavbarComponent
+        isLoginPage={isLoginPage || isAboutPage}
+        isDashboardPage={isDashboardPage}
+      />
 
       {/* Page Content */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/about" element={<About />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
 
-      {/* Floating Chat (hide on login/about) */}
-      {!isLoginPage && !isAboutPage && <ChatAgent />}
-
-      {/* Footer (show for Home + About, hide only on Login) */}
-      {!isLoginPage && <Footer />}
+      {/*Footer and Chat hidden only on login page */}
+      {!hideFooterAndChat && <ChatAgent />}
+      {!hideFooterAndChat && <Footer />}
     </div>
   );
 }
