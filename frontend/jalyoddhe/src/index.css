@@ -1,4 +1,8 @@
 @import "tailwindcss";
+html, body {
+  scroll-behavior: auto !important;
+  overflow-anchor: none;
+}
 
 body {
   font-family: "Inter", sans-serif;

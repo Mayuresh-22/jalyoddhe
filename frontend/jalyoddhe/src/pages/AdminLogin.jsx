@@ -71,7 +71,7 @@ const AdminLogin = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="!w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:!ring-2 focus:!ring-[#00b4d8] focus:!border-transparent outline-none placeholder-gray-400 transition-all duration-300"
+                className="!w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:!ring-2 focus:!ring-[#005c8a] focus:!border-transparent outline-none placeholder-gray-400 transition-all duration-300"
                 placeholder="Email"
               />
             </div>
@@ -84,7 +84,7 @@ const AdminLogin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="!w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:!ring-2 focus:!ring-[#00b4d8] focus:!border-transparent outline-none placeholder-gray-400 transition-all duration-300"
+                className="!w-full !px-4 !py-2.5 !text-sm !rounded-xl !bg-white/10 !text-white !border !border-white/25 focus:!ring-2 focus:!ring-[#005c8a] focus:!border-transparent outline-none placeholder-gray-400 transition-all duration-300"
                 placeholder="Password"
               />
             </div>
@@ -98,7 +98,7 @@ const AdminLogin = () => {
             />
 
             {/* Forgot Password */}
-            <p className="text-right text-gray-400 text-xs mt-2 hover:text-[#00b4d8] cursor-pointer transition-all duration-200">
+            <p className="text-right text-gray-400 text-xs mt-2 hover:text-[#005c8a] cursor-pointer transition-all duration-200">
               Forgot Password?
             </p>
           </form>
