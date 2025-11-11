@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import pin from "../assets/pin.png";
+import PrimaryButton from "../components/PrimaryButton";
+import SecondaryButton from "../components/SecondaryButton";
 
-// Available filter labels and their colors (reuse from FiltersOverlay)
 const labelColors = {
   "Marine Debris": "#D32F2F",
   "Dense Sargassum": "#1B5E20",
@@ -12,7 +13,6 @@ const labelColors = {
   "Foam": "#E0C097",
 };
 
-// Example debris data (with multiple labels per tile)
 const debrisData = [
   {
     coordinates: [
@@ -44,12 +44,11 @@ const debrisData = [
       { lat: "19.75°N", lon: "85.50°E" },
     ],
     labels: ["Natural Organic Material"],
-    confidence: "60%", 
+    confidence: "60%",
     lastupdated: "2024-06-15",
   },
 ];
 
-// Helper to compute midpoint
 const calculateMidpoint = (coords) => {
   const lats = coords.map((c) => parseFloat(c.lat));
   const lons = coords.map((c) => parseFloat(c.lon));
@@ -75,7 +74,7 @@ const DebrisCards = () => {
           Detected Tiles
         </h3>
 
-        {/* LEFT SIDE - Tile Cards */}
+        {/* Tile Cards */}
         <Col
           md={5}
           className="overflow-y-auto h-[80vh] pe-4 border-end border-gray-300"
@@ -98,7 +97,7 @@ const DebrisCards = () => {
                   className={`transition-all duration-300 ${isSelected ? "text-gray-800" : "text-white"
                     }`}
                 >
-                  {/* Icon + Title */}
+
                   <div className="flex items-center mb-2">
                     <div className="bg-[#0077b6] rounded-full p-2 mr-3 flex items-center justify-center shadow-md">
                       <img
@@ -115,7 +114,6 @@ const DebrisCards = () => {
                     </div>
                   </div>
 
-                  {/* Labels */}
                   <div className="mt-3 flex flex-wrap gap-2">
                     {debris.labels.map((label) => (
                       <span
@@ -131,7 +129,6 @@ const DebrisCards = () => {
                     ))}
                   </div>
 
-                  {/* Confidence */}
                   <Card.Text className="mt-2 mb-0 text-sm font-medium">
                     <strong>Confidence:</strong> {debris.confidence}
                   </Card.Text>
@@ -141,12 +138,13 @@ const DebrisCards = () => {
           })}
         </Col>
 
-        {/* RIGHT SIDE - Detailed Info */}
+        {/* Detailed Tile Info Card */}
         <Col md={7} className="ps-4">
           <Card className="!rounded-[2rem] !bg-white/10 !text-white !backdrop-blur-lg shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-all duration-500 hover:shadow-[0_6px_40px_rgba(0,0,0,0.15)]">
             <Card.Body className="p-6 md:p-8">
-              {/* Header */}
+
               <div className="flex items-center gap-3 mb-6">
+
                 <div className="bg-[#0077b6] rounded-full p-3 flex items-center justify-center shadow-lg">
                   <img
                     src={pin}
@@ -154,6 +152,7 @@ const DebrisCards = () => {
                     className="h-5 w-5 object-contain filter brightness-0 invert"
                   />
                 </div>
+
                 <div>
                   <h4 className="text-[#0077b6] text-xl text-white md:text-2xl font-semibold tracking-tight mb-0">
                     {(() => {
@@ -164,13 +163,15 @@ const DebrisCards = () => {
                     })()}
                   </h4>
                 </div>
+
               </div>
 
-              {/* Subsection: Area of Tile */}
               <div className="mb-6">
+
                 <p className="text-[#ffffff] font-medium text-m tracking-wide mb-2">
                   Area of Tile
                 </p>
+
                 <div className="grid grid-cols-2 gap-2 !bg-white/40 rounded-3xl px-4 py-4 shadow-xl text-[0.9rem] text-black">
                   {debrisData[selectedIndex].coordinates.map((coord, i) => (
                     <div key={i} className="flex justify-space-evenly gap-3">
@@ -180,13 +181,15 @@ const DebrisCards = () => {
                     </div>
                   ))}
                 </div>
+
               </div>
 
-              {/* Subsection: Labels */}
               <div className="mb-4">
+
                 <p className="text-[#ffffff] font-medium text-m tracking-wide mb-2">
                   Detected Labels
                 </p>
+
                 <div className="flex flex-wrap gap-2">
                   {debrisData[selectedIndex].labels.map((label) => (
                     <span
@@ -203,33 +206,31 @@ const DebrisCards = () => {
                 </div>
               </div>
 
-              {/* Confidence + Description */}
               <div className="border-t border-white/80 ">
+
                 <p className="text-[#ffffff] my-3 text-[0.95rem]">
                   <strong className="fw-semibold">Confidence:</strong>{" "}
                   <span className="text-[#ffffff] font-light">
                     {debrisData[selectedIndex].confidence}
                   </span>
                 </p>
+
                 <p className="text-[#ffffff] text-[0.95rem]">
                   <strong className="fw-semibold">Last Updated:</strong>{" "}
                   <span className="text-[#ffffff] font-light">
                     {debrisData[selectedIndex].lastupdated}
                   </span>
                 </p>
+
               </div>
             </Card.Body>
           </Card>
 
-          {/* Buttons */}
           <div className="flex flex-wrap gap-4 mt-6 justify-center">
-            <button className="flex items-center gap-2 px-5 py-2.5 !rounded-3xl bg-[#0077b6] hover:bg-[#0096c7] text-white text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03]">
-              View on Map
-            </button>
-            <button className="flex items-center gap-2 px-5 py-2.5 !rounded-3xl bg-white/10 hover:bg-white/30 text-[#ffffff] border border-white/20 text-sm font-medium transition-all duration-300 hover:shadow-md hover:scale-[1.03]">
-              Generate Report
-            </button>
+            <PrimaryButton text="View on Map" wide onClick={() => alert("Opening map...")} />
+            <SecondaryButton text="Generate Report" onClick={() => alert("Generating Report...")} />
           </div>
+
         </Col>
 
       </Row>

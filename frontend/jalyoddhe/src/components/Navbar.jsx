@@ -1,57 +1,82 @@
 import React from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import PrimaryButton from "../components/PrimaryButton"; 
 
-const NavbarComponent = () => {
+const NavbarComponent = ({ isLoginPage, isDashboardPage }) => {
+  const navigate = useNavigate();
+
+  const handleScroll = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const yOffset = -80;
+      const yPosition =
+        section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: yPosition, behavior: "smooth" });
+    }
+  };
+
   return (
     <Navbar
       expand="lg"
       fixed="top"
-      className="bg-white/10 backdrop-blur-md shadow-md transition-all duration-300 hover:bg-white/25"
+      className="!bg-white/10 !backdrop-blur-md !shadow-md !transition-all !duration-300 hover:!bg-white/25 !z-50"
     >
       <Container>
-        {/* Brand */}
         <Navbar.Brand
-          href="#"
-          className="flex items-center text-white font-semibold text-lg"
+          onClick={() => navigate("/")}
+          className="!flex !items-center !text-white !font-semibold !text-lg !cursor-pointer"
         >
           {logo && (
             <img
               src={logo}
               alt="logo"
-              className="h-9 w-9 object-contain mr-2"
+              className="!h-9 !w-9 !object-contain !mr-2"
             />
           )}
           Jalyoddhe
         </Navbar.Brand>
 
-        {/* Toggle */}
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
-          className="bg-white/30 border-none focus:ring-2 focus:ring-white/40"
+          className="!bg-white/30 !border-none focus:!ring-2 focus:!ring-white/40"
         />
 
-        {/* Collapse Menu */}
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto flex items-center space-x-5">
-            <Nav.Link
-              href="#map"
-              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px] no-underline"
-            >
-              Map
-            </Nav.Link>
+          <Nav className="!ms-auto !flex !items-center !space-x-5">
+            {isDashboardPage ? (
+              <PrimaryButton
+                text="Logout"
+                onClick={() => navigate("/admin/login")}
+              />
+            ) : isLoginPage ? (
+              <PrimaryButton
+                text="Home"
+                onClick={() => navigate("/")}
+              />
+            ) : (
+              <>
+                <Nav.Link
+                  onClick={() => handleScroll("map")}
+                  className="!text-white !font-medium hover:!text-[#caf0f8] !cursor-pointer !no-underline"
+                >
+                  Map
+                </Nav.Link>
 
-            <Nav.Link
-              href="#debris"
-              className="!text-white font-medium transition-all duration-200 hover:!text-[#caf0f8] hover:-translate-y-[1px] no-underline"
-            >
-              Debris List
-            </Nav.Link>
+                <Nav.Link
+                  onClick={() => handleScroll("debris")}
+                  className="!text-white !font-medium hover:!text-[#caf0f8] !cursor-pointer !no-underline !whitespace-nowrap"
+                >
+                  Debris List
+                </Nav.Link>
 
-            {/* Login Button */}
-            <button className="flex items-center gap-2 px-4 py-1.5 !rounded-3xl bg-[#0077b6] hover:bg-[#0096c7] text-white text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03]">
-              Login
-            </button>
+                <PrimaryButton
+                  text="Login"
+                  onClick={() => navigate("/admin/login")}
+                />
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

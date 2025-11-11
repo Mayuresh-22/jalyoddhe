@@ -1,7 +1,11 @@
 @import "tailwindcss";
+html, body {
+  scroll-behavior: auto !important;
+  overflow-anchor: none;
+}
 
 body {
-  font-family: Poppins, sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .inter-100 {
@@ -77,18 +81,18 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* keeps the glass look */
+  background: transparent; 
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3); /* frosted semi-white */
+  background: rgba(255, 255, 255, 0.3); 
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5); /* lighter on hover */
+  background: rgba(255, 255, 255, 0.5); 
 }
 
 * {
@@ -109,4 +113,8 @@ body {
 
 .animate-fade-in {
   animation: fade-in 0.4s ease-out forwards;
+}
+
+html {
+  scroll-behavior: smooth;
 }
