@@ -1,5 +1,7 @@
+from typing import List
 import os
 import torch
+from schemas.models import InferenceResult
 from services.GDownloader import GDownloader
 from services.Tiler import Tiler
 from services.Model import Model
@@ -46,7 +48,7 @@ class InferencePipeline:
             except Exception as e:
                 logger.error(f"Error downloading AOI file: {e}")
 
-    def tiles_creation_processing(self, aoi_name: str):
+    def tiles_creation_processing(self, aoi_name: str) -> List[InferenceResult]:
         """
             Creates tiles from the downloaded AOI file.
         """
@@ -55,10 +57,12 @@ class InferencePipeline:
         logger.info("Creating tiles from AOI file...")
         _output_dir = os.path.join(self.tiles_dir, aoi_name)
         try:
-            self.tiler.generate_and_infer_tiles(self.model, aoi_path=self.aoi_file_path, output_dir=_output_dir)
+            tile_inferences = self.tiler.generate_and_infer_tiles(self.model, aoi_path=self.aoi_file_path, output_dir=_output_dir)
             logger.info(f"Tiles created successfully at {_output_dir}")
+            return tile_inferences
         except Exception as e:
             logger.error(f"Error during tiling process: {e}")
+            return []
 
     def get_inference(self, tile: torch.Tensor):
         if tile.shape != (11, 256, 256):
