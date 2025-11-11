@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import NavbarComponent from "../components/Navbar";
-import PrimaryButton from "../components/PrimaryButton"; // ✅ reusable button
+import PrimaryButton from "../components/PrimaryButton";
 
 const AdminDashboard = () => {
   const [aoiList, setAoiList] = useState([
@@ -41,9 +41,8 @@ const AdminDashboard = () => {
     <div className="!bg-[#031217] !text-white inter-300 !min-h-screen">
       <NavbarComponent isDashboardPage={true} />
 
-      {/* Main Dashboard Layout */}
       <div className="!px-10 !pt-24 !pb-4 !space-y-12">
-        {/* Header */}
+        {/* Header Section */}
         <section className="!mb-10 !px-4">
           <h1 className="!text-3xl !font-semibold !text-white/90 !mb-2">
             Welcome to Jalyoddhe’s Dashboard
@@ -53,9 +52,8 @@ const AdminDashboard = () => {
           </p>
         </section>
 
-        {/* Main Content Wrapper */}
         <section className="!bg-white/10 !backdrop-blur-xl !rounded-4xl !shadow-[0_8px_32px_rgba(0,0,0,0.3)] !p-10 !space-y-10">
-          {/* Execute Notebook */}
+          {/* Execute Notebook Section */}
           <div id="execute">
             <h2 className="!text-2xl !font-medium !mb-4 !text-white/90">
               Execute Google Colab Notebook
@@ -75,7 +73,7 @@ const AdminDashboard = () => {
 
           <hr className="!border-t !border-white/60" />
 
-          {/* Update AOIs */}
+          {/* Update AOIs Section */}
           <div id="update">
             <h2 className="!text-2xl !font-medium !text-white/90 !mb-4">
               Update AOIs
@@ -127,7 +125,6 @@ const AdminDashboard = () => {
                   + Add AOI
                 </button>
 
-                {/* ✅ Reusable Button */}
                 <PrimaryButton type="submit" text="Update" />
               </div>
             </form>
@@ -135,7 +132,7 @@ const AdminDashboard = () => {
 
           <hr className="!border-t !border-white/60" />
 
-          {/* Start Inference */}
+          {/* Start Inference Section */}
           <div id="inference">
             <h2 className="!text-2xl !font-medium !mb-4 !text-white/90">
               Start Inference Pipeline
@@ -167,7 +164,6 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* ✅ Reusable Button */}
             <PrimaryButton
               text="Start Inference Pipeline"
               onClick={handleStartInference}

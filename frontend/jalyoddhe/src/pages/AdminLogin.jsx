@@ -29,7 +29,7 @@ const AdminLogin = () => {
     <div className="!min-h-screen !flex !items-center !justify-center !bg-gradient-to-b !from-[#031217] !via-[#021a22] !to-[#000] !text-white px-4">
       <div className="w-full max-w-5xl flex flex-col md:flex-row overflow-hidden rounded-3xl bg-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         
-        {/* LEFT SIDE - Illustration */}
+        {/* Left side Image Section */}
         <div className="hidden md:flex md:w-1/2 relative items-center justify-center bg-gradient-to-br from-[#0077b6]/20 via-[#00b4d8]/20 to-transparent">
           <img
             src={loginIllustration}
@@ -48,7 +48,7 @@ const AdminLogin = () => {
           </div>
         </div>
 
-        {/* RIGHT SIDE - Login Form */}
+        {/* Right side Login Form */}
         <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center relative">
           <div className="absolute inset-0 bg-gradient-to-br from-[#00b4d8]/10 via-transparent to-[#90e0ef]/10 pointer-events-none"></div>
 
@@ -89,7 +89,7 @@ const AdminLogin = () => {
               />
             </div>
 
-            {/* ✅ Replaced old button with PrimaryButton */}
+            {/* Login Button */}
             <PrimaryButton
               text="Login"
               onClick={handleSubmit}

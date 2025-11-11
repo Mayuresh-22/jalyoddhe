@@ -5,7 +5,6 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useLayoutEffect(() => {
-    // Instantly reset scroll before painting
     window.scrollTo({
       top: 0,
       left: 0,

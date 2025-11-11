@@ -35,10 +35,10 @@ const FiltersOverlay = () => {
 
   return (
     <>
-      {/* Main Overlay */}
       <div className="absolute -top-8 right-10 z-[1000] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 w-[360px]">
         <Form>
           <div className="flex items-center justify-between gap-3">
+
             {/* Place Button */}
             <div className="flex-1 relative">
               <button
@@ -89,7 +89,6 @@ const FiltersOverlay = () => {
             </button>
           </div>
 
-          {/* Places List */}
           <div className="flex flex-col py-1 max-h-[50%] overflow-y-auto">
             {places.map((place) => (
               <div
@@ -131,7 +130,6 @@ const FiltersOverlay = () => {
             </button>
           </div>
 
-          {/* Filter List */}
           <div className="flex flex-col py-1 max-h-[50%] overflow-y-auto">
             {filters.map((filter) => {
               const isChecked = selectedFilters.includes(filter.name);
@@ -141,7 +139,6 @@ const FiltersOverlay = () => {
                   className="flex items-center gap-3 py-3 px-2 cursor-pointer hover:bg-white/70 rounded-md transition-all text-black select-none"
                   onClick={() => toggleFilter(filter.name)}
                 >
-                  {/* Custom Colored Checkbox */}
                   <div
                     className="w-5.5 h-5.5 flex items-center justify-center rounded-md border-[1px] transition-all shrink-0"
                     style={{
@@ -167,7 +164,6 @@ const FiltersOverlay = () => {
                     )}
                   </div>
 
-                  {/* Label Text */}
                   <span className="text-sm">{filter.name}</span>
                 </div>
               );

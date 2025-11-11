@@ -25,7 +25,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Introduction */}
+      {/* Introduction Section */}
       <section className="max-w-6xl mx-auto text-center py-16 px-6 md:px-10 animate-slide-up">
         <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8">
           <strong>Jalyoddhe</strong> — meaning “Ocean Warriors” — is an
@@ -37,12 +37,11 @@ const About = () => {
         <div className="w-[50vw] h-[1px] bg-[#0077b6] mx-auto rounded-full"></div>
       </section>
 
-      {/* Mission + Vision Container */}
+      {/* Mission + Vision */}
       <section className="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl rounded-4xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 flex flex-col animate-fade-in">
 
-        {/* Mission Row */}
+        {/* Mission */}
         <div className="flex flex-col md:flex-row items-center gap-10">
-          {/* Left: Text */}
           <div className="md:w-1/2 space-y-3 md:text-left">
             <h2 className="text-3xl font-semibold flex items-center justify-center md:justify-start gap-3">
               <span className="flex items-center justify-center w-15 h-15 rounded-full bg-[#0077b6]/10 text-[#0077b6]">
@@ -58,7 +57,6 @@ const About = () => {
             </p>
           </div>
 
-          {/* Right: Image */}
           <div className="md:w-1/3 flex justify-end">
             <img
               src={missionImg}
@@ -70,9 +68,8 @@ const About = () => {
 
         <div className="w-full h-[1px] bg-white/10 my-6"></div>
 
-        {/* Vision Row */}
+        {/* Vision Section*/}
         <div className="flex flex-col md:flex-row items-center gap-10">
-          {/* Left: Image */}
           <div className="md:w-1/3 flex justify-center">
             <img
               src={visionImg}
@@ -81,7 +78,6 @@ const About = () => {
             />
           </div>
 
-          {/* Right: Text */}
           <div className="md:w-1/2 space-y-3 md:text-left">
             <h2 className="text-3xl font-semibold flex items-center justify-center md:justify-start gap-3">
               <span className="flex items-center justify-center w-15 h-15 rounded-full bg-[#0077b6]/10 text-[#0077b6]">
@@ -100,7 +96,7 @@ const About = () => {
 
         <div className="w-full h-[1px] bg-white/10 my-6"></div>
 
-        {/* What We Do */}
+        {/* What We Do Section*/}
         <section className="max-w-full animate-fade-in text-center">
           <h2 className="!text-3xl font-semibold !mb-6 flex items-center gap-3">
             <span className="flex items-center justify-center w-15 h-15 rounded-full bg-[#0077b6]/10 text-[#0077b6]">
@@ -109,7 +105,6 @@ const About = () => {
             What We Do
           </h2>
 
-          {/* 2 cards per row layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-base text-white/80">
             {[
               "AI-powered debris detection using satellite data",
@@ -140,7 +135,6 @@ const About = () => {
             Meet the Team
           </h2>
 
-          {/* Bigger team cards */}
           <div className="!grid grid-cols-1 sm:grid-cols-2 justify-items-center ">
             {[
               { name: "Yashshri Mule", role: "Frontend Developer" },
@@ -148,7 +142,7 @@ const About = () => {
             ].map((member) => (
               <div
                 key={member.name}
-                className="!bg-white/15 !rounded-3xl p-5 !w-[95%] !md:w-[75%] !text-center !transition-all !duration-300 hover:scale-[1.01]"
+                className="!border !border-white/25 !rounded-3xl p-5 !w-[95%] !md:w-[75%] !text-center !transition-all !duration-300 hover:scale-[1.01]"
               >
                 <div className="w-20 h-20 rounded-full bg-[#0077b6] mx-auto mb-5 flex items-center justify-center text-white text-4xl font-semibold">
                   {member.name.charAt(0)}

@@ -4,8 +4,8 @@ const PrimaryButton = ({
   text = "Click Me",
   onClick,
   disabled = false,
-  wide = false, // fixed width (e.g., for DebrisCards)
-  fullWidth = false, // full container width (e.g., for forms)
+  wide = false, 
+  fullWidth = false, 
   className = "",
 }) => {
   return (
@@ -17,7 +17,7 @@ const PrimaryButton = ({
           ? "!w-full"
           : wide
           ? "!min-w-[180px]"
-          : "" // default auto width
+          : "" 
       } 
       !px-5 !py-2.5 !rounded-3xl 
       !text-white !text-sm !font-medium !shadow-md 

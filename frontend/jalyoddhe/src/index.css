@@ -81,18 +81,18 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* keeps the glass look */
+  background: transparent; 
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3); /* frosted semi-white */
+  background: rgba(255, 255, 255, 0.3); 
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5); /* lighter on hover */
+  background: rgba(255, 255, 255, 0.5); 
 }
 
 * {

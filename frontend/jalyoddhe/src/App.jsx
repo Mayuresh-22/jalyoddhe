@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -27,7 +26,7 @@ function AppContent() {
 
   return (
     <div className="relative min-h-screen bg-[#031217] text-white inter-300">
-      {/* Force top scroll before paint */}
+
       <ScrollToTop />
 
       <NavbarComponent
@@ -35,7 +34,6 @@ function AppContent() {
         isDashboardPage={isDashboardPage}
       />
 
-      {/* ✅ Give key to force remount per route (fixes render-at-bottom) */}
       <Routes key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/admin/login" element={<AdminLogin />} />

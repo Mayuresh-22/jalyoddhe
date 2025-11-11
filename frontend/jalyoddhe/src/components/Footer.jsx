@@ -7,16 +7,13 @@ const Footer = () => {
     <footer className="w-full h-[8vh] bg-white/10 backdrop-blur-xl border-t border-white/20 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center mt-10">
       <div className="w-full max-w-7xl flex flex-col md:flex-row items-center justify-between px-8 text-center md:text-left gap-4">
 
-        {/* Left Side - Project Name */}
         <p className="text-white/80 text-sm tracking-wide flex items-center justify-center my-2">
           © {new Date().getFullYear()}{" "}
           <span className="text-[#00b4d8] font-semibold mx-1">Jalyoddhe</span>
           | Marine Debris Detection Platform
         </p>
 
-        {/* Right Side - About + GitHub */}
         <div className="flex items-center gap-5">
-          {/* About link */}
           <Link
             to="/about"
             className="!text-white/100 !text-sm !hover:text-[#00b4d8] !transition-all !duration-200 !no-underline"
@@ -24,8 +21,6 @@ const Footer = () => {
             About
           </Link>
 
-
-          {/* GitHub Icon */}
           <a
             href="https://github.com/Mayuresh-22/jalyoddhe.git"
             target="_blank"
