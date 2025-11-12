@@ -1,11 +1,12 @@
-from typing import List, Literal, Tuple, Type
+from typing import Annotated, List, Literal, Tuple, Type
+from supabase import Client
 import torch.nn as nn
 from pydantic import BaseModel, Field, field_validator
 
 
 class ModelEntry(BaseModel):
     path: str = Field(...)
-    class_: Type[nn.Module] = Field(...)
+    class_: type[nn.Module] = Field(...)
 
     class Config:
         validate_by_name = True
@@ -21,7 +22,7 @@ class AvailableModels(BaseModel):
 
 class Prediction(BaseModel):
     labels: List[str] = Field(...)
-    confidence: float = Field(...)
+    confidence: List[float] = Field(...)
     
     @field_validator("labels", mode="after")
     def check_labels(cls, labels):
@@ -32,9 +33,14 @@ class Prediction(BaseModel):
         return labels
 
 
-class InferenceResult(BaseModel):
-    tile_id: str = Field(...)
-    tile_name: str = Field(...)
+class InferencePayload(BaseModel):
     aoi_id: str = Field(...)
-    bounds: Tuple[float, float, float, float] = Field(...)
+    bounds: List[float] = Field(..., min_length=4, max_length=4)
     prediction: Prediction = Field(...)
+
+
+class DBOptions(BaseModel):
+    db: Annotated[Client, Field(...)]
+    batch_size: int = Field(default=100)
+    class Config:
+        arbitrary_types_allowed = True
