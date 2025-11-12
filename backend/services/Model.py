@@ -4,12 +4,13 @@ from typing import Literal
 import torch
 from nn_models.classification.resnet import ResNet
 from schemas.models import AvailableModels, ModelEntry
+from utils.env import Env
 from utils.logger import logger
 
 available_models = AvailableModels(
     classification={
         "resnet50": ModelEntry(
-            path=os.path.join(up(up(__file__)), "saved_models", "resnet50_v1.pth"), class_=ResNet
+            path=os.path.join(up(up(__file__)), "saved_models", Env.RESNET_MODEL_NAME), class_=ResNet
         )
     }
 )
@@ -35,6 +36,7 @@ class Model:
         model_config = None
         if self.task == "classification":
             model_config = available_models.classification["resnet50"]
+            logger.info(f"Model configuration found: {model_config}")
         if model_config is None:
             raise ValueError(
                 f"Model type: {self.model_type} for task: {self.task} not found."
