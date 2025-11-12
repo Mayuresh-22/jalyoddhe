@@ -6,8 +6,8 @@ from rasterio.windows import Window
 import rasterio.windows
 import torch
 from utils.env import Env
-from schemas.models import InferenceResult, Prediction
-from typing import List
+from schemas.models import InferencePayload, Prediction
+from typing import List, Tuple
 from services.Model import Model
 from utils.logger import logger
 from tqdm import tqdm
@@ -21,14 +21,14 @@ class Tiler:
         self.classified_tiles = {"water": 0, "non_water": 0}
 
     def generate_and_infer_tiles(
-        self, model: Model, aoi_path: str, output_dir: str
-    ) -> List[InferenceResult]:
+        self, model: Model, aoi_id: str, aoi_path: str, output_dir: str
+    ) -> List[InferencePayload]:
         """
         This method now create tiles and predict on each tile,
         combining both functionalities for efficiency.
         """
         os.makedirs(output_dir, exist_ok=True)
-        tile_inferences: List[InferenceResult] = []
+        tile_inferences: List[InferencePayload] = []
 
         try:
             with rasterio.open(aoi_path) as src:
@@ -71,7 +71,7 @@ class Tiler:
                                     window, src.transform
                                 )
                                 tile_name = f"tile_{i}_{j}.tif"
-                                logger.info(
+                                logger.debug(
                                     f"\nProcessing {tile_name}, geospatial coords: {window_bounds}"
                                 )
 
@@ -82,20 +82,18 @@ class Tiler:
                                 probs = model.inference(tile_tensor)
                                 probs = probs.squeeze(0)
 
-                                predicted_labels = self.get_labels(
+                                predicted_labels, index = self.get_labels(
                                     (probs >= self.threshold).astype(int)
                                 )
                                 if len(predicted_labels) > 0:
                                     # TODO: Store inference result in DB
                                     tile_inferences.append(
-                                        InferenceResult(
-                                            tile_id=uuid4().hex,
-                                            aoi_id="asdasd",
-                                            tile_name=tile_name,
-                                            bounds=window_bounds,
+                                        InferencePayload(
+                                            aoi_id=aoi_id,
+                                            bounds=list(window_bounds),
                                             prediction=Prediction(
                                                 labels=predicted_labels,
-                                                confidence=float(np.max(probs)),
+                                                confidence=[float(probs[idx]) for idx in index],
                                             ),
                                         )
                                     )
@@ -109,16 +107,17 @@ class Tiler:
             logger.error(f"An error occurred while creating tiles: {e}")
             raise e
 
-    def get_labels(self, result: np.ndarray) -> List[str]:
+    def get_labels(self, result: np.ndarray) -> Tuple[List[str], List[int]]:
         labels = []
+        index = []
         LABELS = Env.LABELS
         ALLOWED_LABEL_INDEX = Env.ALLOWED_LABEL_INDEX
-        
-        print("ENVs:", LABELS, ALLOWED_LABEL_INDEX)
+        # print("Result array from model: ", result)
         for idx, val in enumerate(result):
             if val == 1 and idx in ALLOWED_LABEL_INDEX:
                 labels.append(LABELS[idx])
-        return labels
+                index.append(idx)
+        return labels, index
 
     def _cal_mndwi(self, tile):
         """Calculates Modified Normalized Difference Water Index (MNDWI).\n
