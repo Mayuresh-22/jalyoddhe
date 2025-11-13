@@ -1,7 +1,7 @@
 import uuid
 import modal
 
-from db.services.LogService import LogService
+from db.services.RunService import RunService
 import nn_models
 from utils.const import (
     STATUS_COMPLETED,
@@ -58,7 +58,7 @@ def start_pipeline(run_id: str):
     from services.Model import Model
     
     db_options = DBOptions(db=db)
-    db_logger = LogService(run_id=run_id, options=db_options)
+    db_logger = RunService(run_id=run_id, options=db_options)
 
     try:
         logger.info("Starting inference pipeline...")
