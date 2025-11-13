@@ -1,23 +1,6 @@
-from typing import Annotated, List, Literal, Tuple, Type
+from typing import Annotated, List
 from supabase import Client
-import torch.nn as nn
 from pydantic import BaseModel, Field, field_validator
-
-
-class ModelEntry(BaseModel):
-    path: str = Field(...)
-    class_: type[nn.Module] = Field(...)
-
-    class Config:
-        validate_by_name = True
-        arbitrary_types_allowed = True
-
-
-class AvailableModels(BaseModel):
-    classification: dict[Literal["resnet50"], ModelEntry]
-
-    class Config:
-        arbitrary_types_allowed = True
 
 
 class Prediction(BaseModel):
@@ -44,3 +27,12 @@ class DBOptions(BaseModel):
     batch_size: int = Field(default=100)
     class Config:
         arbitrary_types_allowed = True
+
+
+class AOIEntry(BaseModel):
+    aoi_name: str = Field(...)
+    polygon: List[List[List[float]]] = Field(...)
+    file_id: List[str] = Field(...)
+
+class AOIUpdateEntry(BaseModel):
+    aois: List[AOIEntry] = Field(...)
