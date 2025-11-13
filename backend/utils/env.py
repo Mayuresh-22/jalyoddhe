@@ -12,3 +12,5 @@ class Env:
     RESNET_MODEL_NAME: str = str(os.getenv("RESNET_MODEL_NAME", "resnet50_v1"))
     SUPABASE_URL: str = str(os.getenv("SUPABASE_URL"))
     SUPABASE_ANON: str = str(os.getenv("SUPABASE_ANON"))
+    SCRIPT_ENV: str = str(os.getenv("SCRIPT_ENV", "LOCAL"))
+    CACHE_DIR: str = str(os.getenv("CACHE_DIR", "/root/.cache/"))
