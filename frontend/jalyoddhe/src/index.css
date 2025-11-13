@@ -118,3 +118,18 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes heartbeatGlow {
+  0%, 100% {
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.24);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+  }
+}
+
+.heartbeat {
+  animation: heartbeatGlow 1.4s ease-in-out infinite;
+}
