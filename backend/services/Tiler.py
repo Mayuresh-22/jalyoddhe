@@ -18,7 +18,6 @@ class Tiler:
         self.tile_size = tile_size
         self.mndwi_threshold = 0.0
         self.threshold = Env.PER_CLASS_THRESHOLD
-        self.classified_tiles = {"water": 0, "non_water": 0}
 
     def generate_and_infer_tiles(
         self, model: Model, aoi_id: str, aoi_path: str
@@ -28,6 +27,7 @@ class Tiler:
         combining both functionalities for efficiency.
         """
         tile_inferences: List[InferencePayload] = []
+        classified_tiles = {"water": 0, "non_water": 0}
 
         try:
             with rasterio.open(aoi_path) as src:
@@ -61,7 +61,7 @@ class Tiler:
                                 f"Mean MNDWI for tile at ({i}, {j}): {mean_mndwi}"
                             )
                             if mean_mndwi > self.mndwi_threshold:
-                                self.classified_tiles["water"] += 1
+                                classified_tiles["water"] += 1
 
                                 window_bounds = rasterio.windows.bounds(
                                     window, src.transform
@@ -95,10 +95,10 @@ class Tiler:
                                     )
 
                             else:
-                                self.classified_tiles["non_water"] += 1
+                                classified_tiles["non_water"] += 1
                             pbar.update(1)
-            logger.info(f"Tile classification summary: {self.classified_tiles}")
-            return tile_inferences, self.classified_tiles
+            logger.info(f"Tile classification summary: {classified_tiles}")
+            return tile_inferences, classified_tiles
         except Exception as e:
             logger.error(f"An error occurred while creating tiles: {e}")
             raise e
