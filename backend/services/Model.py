@@ -3,7 +3,7 @@ from os.path import dirname as up
 from typing import Literal
 import torch
 from nn_models.classification.resnet import ResNet
-from schemas.models import AvailableModels, ModelEntry
+from schemas.others import AvailableModels, ModelEntry
 from utils.env import Env
 from utils.logger import logger
 
