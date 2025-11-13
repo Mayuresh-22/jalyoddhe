@@ -21,13 +21,12 @@ class Tiler:
         self.classified_tiles = {"water": 0, "non_water": 0}
 
     def generate_and_infer_tiles(
-        self, model: Model, aoi_id: str, aoi_path: str, output_dir: str
-    ) -> List[InferencePayload]:
+        self, model: Model, aoi_id: str, aoi_path: str
+    ) -> Tuple[List[InferencePayload], dict]:
         """
         This method now create tiles and predict on each tile,
         combining both functionalities for efficiency.
         """
-        os.makedirs(output_dir, exist_ok=True)
         tile_inferences: List[InferencePayload] = []
 
         try:
@@ -49,9 +48,6 @@ class Tiler:
 
                             # Only infer non-empty tiles
                             # If B4, B3, B2 contain NaNs, skip the tile
-                            logger.debug(
-                                f"Checking tile at position ({i}, {j}) for NaN values in B4, B3, B2"
-                            )
                             if (
                                 np.isnan(np.mean(data[2, :, :]))
                                 or np.isnan(np.mean(data[3, :, :]))
@@ -81,7 +77,7 @@ class Tiler:
 
                                 probs = model.inference(tile_tensor)
                                 probs = probs.squeeze(0)
-
+                                
                                 predicted_labels, index = self.get_labels(
                                     (probs >= self.threshold).astype(int)
                                 )
@@ -102,7 +98,7 @@ class Tiler:
                                 self.classified_tiles["non_water"] += 1
                             pbar.update(1)
             logger.info(f"Tile classification summary: {self.classified_tiles}")
-            return tile_inferences
+            return tile_inferences, self.classified_tiles
         except Exception as e:
             logger.error(f"An error occurred while creating tiles: {e}")
             raise e
@@ -112,7 +108,7 @@ class Tiler:
         index = []
         LABELS = Env.LABELS
         ALLOWED_LABEL_INDEX = Env.ALLOWED_LABEL_INDEX
-        # print("Result array from model: ", result)
+
         for idx, val in enumerate(result):
             if val == 1 and idx in ALLOWED_LABEL_INDEX:
                 labels.append(LABELS[idx])
