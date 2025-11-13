@@ -9,9 +9,9 @@ class GDownloader:
     def download(
         self,
         file_id: str,
+        output_dir: str,
         file_name: str = f"aoi_{rand_str(5)}",
-        format: str = ".tif",
-        output_dir: str = "",
+        format: str = ".tif"
     ) -> str:
         if not os.path.exists(output_dir):
             os.makedirs(output_dir, exist_ok=True)

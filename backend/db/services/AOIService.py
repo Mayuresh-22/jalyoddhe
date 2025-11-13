@@ -11,7 +11,8 @@ class AOIService:
             resp = queryClient.table(AOI_TABLE).select(
                 AOI_ID_COLUMN, AOI_NAME_COLUMN, FILE_ID_COLUMN
             ).execute()
-            logger.debug(f"DB select response: {resp.data}")
+            logger.info(f"DB select response: {resp.data}")
             return resp.data
         except Exception as e:
             logger.error(f"Error selecting AOIs from DB: {e}")
+            return []

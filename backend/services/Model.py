@@ -7,10 +7,12 @@ from schemas.models import AvailableModels, ModelEntry
 from utils.env import Env
 from utils.logger import logger
 
+SAVED_MODELS_DIR = os.path.join(up(up(__file__)), "saved_models") if Env.SCRIPT_ENV == "LOCAL" else os.path.join(Env.CACHE_DIR, "saved_models")
+
 available_models = AvailableModels(
     classification={
         "resnet50": ModelEntry(
-            path=os.path.join(up(up(__file__)), "saved_models", Env.RESNET_MODEL_NAME), class_=ResNet
+            path=os.path.join(SAVED_MODELS_DIR, Env.RESNET_MODEL_NAME), class_=ResNet
         )
     }
 )
@@ -23,6 +25,8 @@ class Model:
         self.task = task
         self.model_type = model_type
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        torch.hub.set_dir(os.path.join(Env.CACHE_DIR, "torch_hub"))
+
         logger.info(
             f"Initializing Model with task: {self.task}, model_type: {self.model_type}, device: {self.device}"
         )
