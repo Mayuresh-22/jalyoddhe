@@ -27,6 +27,16 @@ const AdminDashboard = () => {
   const addAOI = () =>
     setAoiList([...aoiList, { name: "", polygon: "", driveLink: "" }]);
 
+  // DELETE AOI ROW
+  const handleDeleteAOI = (index) => {
+    const updated = [...aoiList];
+    updated.splice(index, 1);
+    setAoiList(updated);
+  };
+
+  // -------------------------
+  // UPDATE AOIs
+  // -------------------------
   const handleUpdate = (e) => {
     e.preventDefault();
 
@@ -55,10 +65,14 @@ const AdminDashboard = () => {
         type: "success",
         msg: "AOIs updated successfully!",
       });
+
       setIsUpdating(false);
     }, 2000);
   };
 
+  // -------------------------
+  // START INFERENCE
+  // -------------------------
   const handleStartInference = () => {
     if (!executedNB || !updatedIds) {
       alert("Please complete all previous steps.");
@@ -130,8 +144,10 @@ const AdminDashboard = () => {
             <form onSubmit={handleUpdate} className="!space-y-5">
               <div className="!space-y-4 !max-h-[250px] !overflow-y-auto !px-2 custom-scrollbar">
                 {aoiList.map((aoi, index) => (
-                  <div key={index}>
-                    <div className="!flex !flex-col md:!flex-row !gap-3">
+                  <div key={index} className="!flex !items-center !gap-3">
+
+                    {/* INPUT FIELDS */}
+                    <div className="!flex !flex-col md:!flex-row !gap-3 !flex-1">
                       <input
                         type="text"
                         placeholder="AOI Name"
@@ -139,8 +155,10 @@ const AdminDashboard = () => {
                         onChange={(e) =>
                           handleAOIChange(index, "name", e.target.value)
                         }
-                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 !px-6 !border !border-white/10 hover:!bg-white/20"
+                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 
+                                   !px-6 !border !border-white/10 hover:!bg-white/20"
                       />
+
                       <input
                         type="text"
                         placeholder="Polygon Coordinates"
@@ -148,8 +166,10 @@ const AdminDashboard = () => {
                         onChange={(e) =>
                           handleAOIChange(index, "polygon", e.target.value)
                         }
-                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 !px-6 !border !border-white/10 hover:!bg-white/20"
+                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 
+                                   !px-6 !border !border-white/10 hover:!bg-white/20"
                       />
+
                       <input
                         type="text"
                         placeholder="Google Drive Link"
@@ -157,9 +177,29 @@ const AdminDashboard = () => {
                         onChange={(e) =>
                           handleAOIChange(index, "driveLink", e.target.value)
                         }
-                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 !px-6 !border !border-white/10 hover:!bg-white/20"
+                        className="!flex-1 !bg-white/10 !rounded-3xl !py-3 
+                                   !px-6 !border !border-white/10 hover:!bg-white/20"
                       />
                     </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteAOI(index)}
+                      className="
+                          !w-10 !h-10 !flex !items-center !justify-center
+                          !rounded-full 
+                          !bg-[rgba(255,0,0,0.12)] 
+                          hover:!bg-[rgba(255,0,0,0.25)]
+                          !backdrop-blur-xl 
+                          !border !border-[rgba(255,255,255,0.1)]
+                          !transition-all !duration-200
+                          !font-semibold !text-white/80
+                        "
+                    >
+                      ✕
+                    </button>
+
+
                   </div>
                 ))}
               </div>
