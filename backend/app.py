@@ -1,11 +1,12 @@
 from datetime import datetime as dt, timezone
 from uuid import uuid1
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import modal
 from db.services.RunService import RunService
 from db.conn import db as db_conn
-from schemas.models import AOIUpdateEntry, DBOptions
+from schemas.models import AOIUpdateEntry, DBOptions, LoginPayload
 from utils.const import (
     AOI_ID_COLUMN,
     AOI_NAME_COLUMN,
@@ -41,12 +42,34 @@ app_secrets = modal.Secret.from_name("jalyoddhe-secrets")
 db_options = DBOptions(db=db_conn)
 
 web_app = FastAPI()
+# CORS middleware
+web_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 ENV = Env.SCRIPT_ENV
 
 
 @web_app.get("/")
 def hello():
     return {"status": "ok"}
+
+
+@web_app.post("/api/admin/login")
+def admin_login(payload: LoginPayload):
+    """
+    Simple admin login endpoint.
+    """
+    logger.info(f"Admin login attempt for email: {payload.email}")
+    if payload.email == Env.ADMIN_EMAIL and payload.secret_key == Env.ADMIN_SECRET_KEY:
+        logger.info("Admin login successful")
+        return JSONResponse({"status": "ok", "message": "Login successful"}, status_code=200)
+    else:
+        logger.warning("Admin login failed")
+        return JSONResponse({"status": "error", "message": "Invalid credentials"}, status_code=401)
 
 
 @web_app.post("/api/pipeline/run")
@@ -205,6 +228,25 @@ def update_aois(aois: AOIUpdateEntry):
         )
     except Exception as e:
         logger.error(f"Error updating AOIs: {e}")
+        return JSONResponse(
+            {"status": "error", "message": "Internal server error"}, status_code=500
+        )
+
+
+@web_app.delete("/api/admin/aois")
+def delete_aoi(aoi_name: str):
+    """
+    Deletes an AOI entry from the database by name. (Admin only)
+    """
+    queryClient = db_options.db
+
+    try:
+        queryClient.table(AOI_TABLE).delete().eq(AOI_NAME_COLUMN, aoi_name).execute()
+        return JSONResponse(
+            {"status": "ok", "message": "AOI deleted successfully"}, status_code=200
+        )
+    except Exception as e:
+        logger.error(f"Error deleting AOI {aoi_name}: {e}")
         return JSONResponse(
             {"status": "error", "message": "Internal server error"}, status_code=500
         )
