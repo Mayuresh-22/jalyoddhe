@@ -11,49 +11,27 @@ const labelColors = {
   "Natural Organic Material": "#8D6E63",
   "Sediment-Laden Water": "#EF6C00",
   "Foam": "#E0C097",
+  "Ship": "#757575",
+  "Clouds": "#E0E0E0",
+  "Marine Water": "#01579B",
+  "Turbid Water": "#8D6E63",
+  "Shallow Water": "#4FC3F7",
 };
 
-const debrisData = [
-  {
-    coordinates: [
-      { lat: "9.75°N", lon: "76.35°E" },
-      { lat: "9.75°N", lon: "76.45°E" },
-      { lat: "9.65°N", lon: "76.35°E" },
-      { lat: "9.65°N", lon: "76.45°E" },
-    ],
-    labels: ["Marine Debris", "Foam", "Dense Sargassum"],
-    confidence: "92%",
-    lastupdated: "2024-06-15",
-  },
-  {
-    coordinates: [
-      { lat: "15.45°N", lon: "73.75°E" },
-      { lat: "15.45°N", lon: "73.85°E" },
-      { lat: "15.35°N", lon: "73.75°E" },
-      { lat: "15.35°N", lon: "73.85°E" },
-    ],
-    labels: ["Sparse Sargassum", "Sediment-Laden Water"],
-    confidence: "75%",
-    lastupdated: "2024-06-15",
-  },
-  {
-    coordinates: [
-      { lat: "19.85°N", lon: "85.40°E" },
-      { lat: "19.85°N", lon: "85.50°E" },
-      { lat: "19.75°N", lon: "85.40°E" },
-      { lat: "19.75°N", lon: "85.50°E" },
-    ],
-    labels: ["Natural Organic Material"],
-    confidence: "60%",
-    lastupdated: "2024-06-15",
-  },
-];
+const getBoundsCorners = (bounds) => {
+  const [left, bottom, right, top] = bounds;
+  return [
+    { lat: `${top.toFixed(2)}°N`, lon: `${left.toFixed(2)}°E` },
+    { lat: `${top.toFixed(2)}°N`, lon: `${right.toFixed(2)}°E` },
+    { lat: `${bottom.toFixed(2)}°N`, lon: `${left.toFixed(2)}°E` },
+    { lat: `${bottom.toFixed(2)}°N`, lon: `${right.toFixed(2)}°E` },
+  ];
+};
 
-const calculateMidpoint = (coords) => {
-  const lats = coords.map((c) => parseFloat(c.lat));
-  const lons = coords.map((c) => parseFloat(c.lon));
-  const avgLat = lats.reduce((a, b) => a + b, 0) / lats.length;
-  const avgLon = lons.reduce((a, b) => a + b, 0) / lons.length;
+const calculateMidpoint = (bounds) => {
+  const [left, bottom, right, top] = bounds;
+  const avgLat = (bottom + top) / 2;
+  const avgLon = (left + right) / 2;
 
   return {
     lat: `${avgLat.toFixed(2)}°N`,
@@ -61,13 +39,43 @@ const calculateMidpoint = (coords) => {
   };
 };
 
-const DebrisCards = () => {
+const DebrisCards = ({ tiles = [], loading, error, onViewOnMap }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  if (loading) {
+    return (
+      <Container fluid className="w-full px-5 py-6 rounded-4xl bg-white/10 backdrop-blur-lg">
+        <div className="text-center text-white py-10">
+          <p>Loading tiles...</p>
+        </div>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container fluid className="w-full px-5 py-6 rounded-4xl bg-white/10 backdrop-blur-lg">
+        <div className="text-center text-red-400 py-10">
+          <p>{error}</p>
+        </div>
+      </Container>
+    );
+  }
+
+  if (tiles.length === 0) {
+    return (
+      <Container fluid className="w-full px-5 py-6 rounded-4xl bg-white/10 backdrop-blur-lg">
+        <div className="text-center text-white py-10">
+          <p>No tiles found for this area.</p>
+        </div>
+      </Container>
+    );
+  }
 
   return (
     <Container
       fluid
-      className="mt-15 px-5 py-4 rounded-4xl bg-white/10 backdrop-blur-lg "
+      className="w-full px-5 py-6 rounded-4xl bg-white/10 backdrop-blur-lg"
     >
       <Row className="border-white/10">
         <h3 className="text-lg mb-4 fw-bold text-[#0077b6] ">
@@ -77,14 +85,16 @@ const DebrisCards = () => {
         {/* Tile Cards */}
         <Col
           md={5}
-          className="overflow-y-auto h-[80vh] pe-4 border-end border-gray-300"
+          className="overflow-y-auto max-h-[56vh] sm:max-h-[68vh] pe-4"
         >
-          {debrisData.map((debris, index) => {
+          {tiles.map((tile, index) => {
             const isSelected = selectedIndex === index;
-            const midpoint = calculateMidpoint(debris.coordinates);
+            const midpoint = calculateMidpoint(tile.bounds);
+            const labels = tile.prediction?.labels || [];
+            const confidences = tile.prediction?.confidence || [];
 
             return (
-              <Card
+                <Card
                 key={index}
                 className={`mb-3 cursor-pointer !rounded-3xl !transition-all !relative !border-white/40 !border !bg-white/10 !backdrop-blur-lg
                   ${isSelected
@@ -94,8 +104,7 @@ const DebrisCards = () => {
                 onClick={() => setSelectedIndex(index)}
               >
                 <Card.Body
-                  className={`transition-all duration-300 ${isSelected ? "text-gray-800" : "text-white"
-                    }`}
+                  className={`transition-all duration-300 ${isSelected ? "text-gray-800" : "text-white"} overflow-hidden`}
                 >
 
                   <div className="flex items-center mb-2">
@@ -115,12 +124,12 @@ const DebrisCards = () => {
                   </div>
 
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {debris.labels.map((label) => (
+                    {labels.map((label, idx) => (
                       <span
-                        key={label}
+                        key={`${label}-${idx}`}
                         className="text-xs px-2.5 py-1 rounded-full font-medium shadow-sm"
                         style={{
-                          backgroundColor: labelColors[label],
+                          backgroundColor: labelColors[label] || "#808080",
                           color: "#fff",
                         }}
                       >
@@ -130,7 +139,7 @@ const DebrisCards = () => {
                   </div>
 
                   <Card.Text className="mt-2 mb-0 text-sm font-medium">
-                    <strong>Confidence:</strong> {debris.confidence}
+                    <strong>Confidence:</strong> {confidences.length > 0 ? confidences.map((c, idx) => `${labels[idx]}: ${(c * 100).toFixed(1)}%`).join(", ") : "N/A"}
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -157,7 +166,7 @@ const DebrisCards = () => {
                   <h4 className="text-[#0077b6] text-xl text-white md:text-2xl font-semibold tracking-tight mb-0">
                     {(() => {
                       const { lat, lon } = calculateMidpoint(
-                        debrisData[selectedIndex].coordinates
+                        tiles[selectedIndex].bounds
                       );
                       return `${lat}, ${lon}`;
                     })()}
@@ -166,18 +175,17 @@ const DebrisCards = () => {
 
               </div>
 
-              <div className="mb-6">
+                <div className="mb-6">
 
                 <p className="text-[#ffffff] font-medium text-m tracking-wide mb-2">
                   Area of Tile
                 </p>
 
-                <div className="grid grid-cols-2 gap-2 !bg-white/40 rounded-3xl px-4 py-4 shadow-xl text-[0.9rem] text-black">
-                  {debrisData[selectedIndex].coordinates.map((coord, i) => (
-                    <div key={i} className="flex justify-space-evenly gap-3">
-                      <span className="font-medium">Lat: {coord.lat} </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white/40 rounded-3xl px-4 py-4 shadow-xl text-[0.9rem] text-black">
+                  {getBoundsCorners(tiles[selectedIndex].bounds).map((coord, i) => (
+                    <div key={i} className="flex flex-col sm:flex-row sm:justify-between gap-2 items-start sm:items-center">
+                      <span className="font-medium">Lat: {coord.lat}</span>
                       <span className="font-medium">Lon: {coord.lon}</span>
-                      <span></span>
                     </div>
                   ))}
                 </div>
@@ -191,12 +199,12 @@ const DebrisCards = () => {
                 </p>
 
                 <div className="flex flex-wrap gap-2">
-                  {debrisData[selectedIndex].labels.map((label) => (
+                  {tiles[selectedIndex].prediction?.labels?.map((label, idx) => (
                     <span
-                      key={label}
+                      key={`${label}-${idx}`}
                       className="text-xs md:text-sm px-3 py-1.5 rounded-full font-medium shadow-sm transition-all duration-200 hover:scale-[1.05]"
                       style={{
-                        backgroundColor: labelColors[label],
+                        backgroundColor: labelColors[label] || "#808080",
                         color: "#fff",
                       }}
                     >
@@ -211,14 +219,18 @@ const DebrisCards = () => {
                 <p className="text-[#ffffff] my-3 text-[0.95rem]">
                   <strong className="fw-semibold">Confidence:</strong>{" "}
                   <span className="text-[#ffffff] font-light">
-                    {debrisData[selectedIndex].confidence}
+                    {tiles[selectedIndex].prediction?.confidence?.length > 0
+                      ? tiles[selectedIndex].prediction.confidence.map((c, idx) => 
+                          `${tiles[selectedIndex].prediction.labels[idx]}: ${(c * 100).toFixed(1)}%`
+                        ).join(", ")
+                      : "N/A"}
                   </span>
                 </p>
 
                 <p className="text-[#ffffff] text-[0.95rem]">
                   <strong className="fw-semibold">Last Updated:</strong>{" "}
                   <span className="text-[#ffffff] font-light">
-                    {debrisData[selectedIndex].lastupdated}
+                    {tiles[selectedIndex].last_updated ? new Date(tiles[selectedIndex].last_updated).toLocaleDateString() : "N/A"}
                   </span>
                 </p>
 
@@ -227,7 +239,11 @@ const DebrisCards = () => {
           </Card>
 
           <div className="flex flex-wrap gap-4 mt-6 justify-center">
-            <PrimaryButton text="View on Map" wide onClick={() => alert("Opening map...")} />
+            <PrimaryButton 
+              text="View on Map" 
+              wide 
+              onClick={() => onViewOnMap && onViewOnMap(tiles[selectedIndex])} 
+            />
             <SecondaryButton text="Generate Report" onClick={() => alert("Generating Report...")} />
           </div>
 
