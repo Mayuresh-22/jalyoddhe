@@ -26,7 +26,7 @@ const About = () => {
       </section>
 
       {/* Introduction Section */}
-      <section className="max-w-6xl mx-auto text-center py-16 px-6 md:px-10 animate-slide-up">
+      <section className="max-w-6xl mx-auto text-center py-12 px-4 md:px-10 animate-slide-up">
         <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8">
           <strong>Jalyoddhe</strong> — meaning “Ocean Warriors” — is an
           AI-powered marine debris detection platform that leverages satellite
@@ -34,11 +34,11 @@ const About = () => {
           along India’s coastlines. We transform raw data into actionable
           environmental intelligence for real-world impact.
         </p>
-        <div className="w-[50vw] h-[1px] bg-[#0077b6] mx-auto rounded-full"></div>
+        <div className="max-w-xl h-px bg-[#0077b6] mx-auto rounded-full"></div>
       </section>
 
       {/* Mission + Vision */}
-      <section className="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl rounded-4xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 flex flex-col animate-fade-in">
+      <section className="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl rounded-4xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex flex-col animate-fade-in">
 
         {/* Mission */}
         <div className="flex flex-col md:flex-row items-center gap-10">
@@ -61,7 +61,7 @@ const About = () => {
             <img
               src={missionImg}
               alt="Mission"
-              className="w-[40%] md:w-[45%] lg:w-[40%] object-contain transition-all duration-500 hover:scale-102"
+              className="w-32 md:w-40 lg:w-48 object-contain transition-all duration-500"
             />
           </div>
         </div>
@@ -74,7 +74,7 @@ const About = () => {
             <img
               src={visionImg}
               alt="Vision"
-              className="w-[45%] md:w-[45%] lg:w-[40%] object-contain transition-all duration-500 hover:scale-102"
+              className="w-32 md:w-40 lg:w-48 object-contain transition-all duration-500"
             />
           </div>
 
@@ -135,14 +135,14 @@ const About = () => {
             Meet the Team
           </h2>
 
-          <div className="!grid grid-cols-1 sm:grid-cols-2 justify-items-center ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 justify-items-center">
             {[
               { name: "Yashshri Mule", role: "Frontend Developer" },
               { name: "Mayuresh Choudhary", role: "Backend & AI Engineer" },
             ].map((member) => (
               <div
                 key={member.name}
-                className="!border !border-white/25 !rounded-3xl p-5 !w-[95%] !md:w-[75%] !text-center !transition-all !duration-300 hover:scale-[1.01]"
+                className="border border-white/25 rounded-3xl p-5 w-full md:w-3/4 text-center transition-all duration-300 hover:scale-[1.01]"
               >
                 <div className="w-20 h-20 rounded-full bg-[#0077b6] mx-auto mb-5 flex items-center justify-center text-white text-4xl font-semibold">
                   {member.name.charAt(0)}
