@@ -41,7 +41,7 @@ function AppContent() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
 
-      {!hideFooterAndChat && <ChatAgent />}
+      {/* {!hideFooterAndChat && <ChatAgent />} */}
       {!hideFooterAndChat && <Footer />}
     </div>
   );
