@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginIllustration from "../assets/hero.jpg";
-import PrimaryButton from "../components/PrimaryButton"; // ✅ Import reusable button
+import PrimaryButton from "../components/PrimaryButton";
+import { AppEnv } from "../utils/envs";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -13,17 +14,30 @@ const AdminLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true);
+    setIsLoading(false);
 
-    setTimeout(() => {
-      if (email === "admin@example.com" && password === "admin123") {
+    const val_email = email.trim();
+    const val_password = password.trim();
+
+    console.log("Base URL:", AppEnv.API_BASE_URL);
+    const resp = fetch(AppEnv.API_BASE_URL + "/admin/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: val_email, secret_key: val_password })
+    }); 
+    setIsLoading(false);
+    resp.then((res) => {
+      if (res.status === 200) {
+        console.log(`login response: ${res}`);
         navigate("/admin/dashboard");
       } else {
-        setError("Invalid email or password");
+        setIsLoading(false);
+        setError("Invalid email or password.");
       }
-      setIsLoading(false);
-    }, 1000);
-  };
+    });
+  }
 
   return (
     <div className="!min-h-screen !flex !items-center !justify-center !bg-gradient-to-b !from-[#031217] !via-[#021a22] !to-[#000] !text-white px-4">
@@ -49,7 +63,7 @@ const AdminLogin = () => {
         </div>
 
         {/* Right side Login Form */}
-        <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center relative">
+        <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center relative">
           <div className="absolute inset-0 bg-gradient-to-br from-[#00b4d8]/10 via-transparent to-[#90e0ef]/10 pointer-events-none"></div>
 
           <h2 className="!text-2xl !md:text-3xl !font-semibold !text-center !mb-6">
