@@ -14,3 +14,5 @@ class Env:
     SUPABASE_ANON: str = str(os.getenv("SUPABASE_ANON"))
     SCRIPT_ENV: str = str(os.getenv("SCRIPT_ENV", "LOCAL"))
     CACHE_DIR: str = str(os.getenv("CACHE_DIR", "/root/.cache/"))
+    ADMIN_EMAIL: str = str(os.getenv("ADMIN_EMAIL", "admin@jalyoddhe.com"))
+    ADMIN_SECRET_KEY: str = str(os.getenv("ADMIN_SECRET_KEY", "your_default_secret_key"))
