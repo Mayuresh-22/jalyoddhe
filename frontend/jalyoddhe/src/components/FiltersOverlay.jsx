@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
+import { formatAOIName } from "../utils/api";
 
-const FiltersOverlay = () => {
+const FiltersOverlay = ({ aois = [], selectedAOI, onAOIChange, selectedFilters = [], onFilterChange }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [showPlaces, setShowPlaces] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  const [selectedPlace, setSelectedPlace] = useState("Vembanad");
 
   const filters = [
     { name: "Marine Debris", color: "#D32F2F" },
@@ -16,26 +15,23 @@ const FiltersOverlay = () => {
     { name: "Foam", color: "#E0C097" },
   ];
 
-  const places = ["Vembanad", "Goa", "Chilika"];
-
   const toggleFilter = (name) => {
-    setSelectedFilters((prev) =>
-      prev.includes(name)
-        ? prev.filter((f) => f !== name)
-        : [...prev, name]
-    );
+    const newFilters = selectedFilters.includes(name)
+      ? selectedFilters.filter((f) => f !== name)
+      : [...selectedFilters, name];
+    onFilterChange(newFilters);
   };
 
-  const clearFilters = () => setSelectedFilters([]);
+  const clearFilters = () => onFilterChange([]);
 
-  const selectPlace = (place) => {
-    setSelectedPlace(place);
+  const selectPlace = (aoi) => {
+    onAOIChange(aoi);
     setShowPlaces(false);
   };
 
   return (
     <>
-      <div className="absolute -top-8 right-10 z-[1000] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 w-[360px]">
+      <div className="absolute top-4 sm:top-6 right-4 sm:right-10 z-[1000] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 w-72 sm:w-80">
         <Form>
           <div className="flex items-center justify-between gap-3">
 
@@ -50,7 +46,7 @@ const FiltersOverlay = () => {
                 className="w-full bg-white/70 hover:bg-white/90 text-black font-medium py-2 px-4 rounded-2xl shadow-sm transition-all duration-200 text-sm"
                 style={{ borderRadius: "9999px" }}
               >
-                {selectedPlace}
+                {selectedAOI ? formatAOIName(selectedAOI.aoi_name) : "Select Location"}
               </button>
             </div>
 
@@ -76,7 +72,7 @@ const FiltersOverlay = () => {
 
       {/* --- Floating Places Dropdown --- */}
       {showPlaces && (
-        <div className="absolute top-[50px] right-10 w-[270px] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 z-[2000] transition-all duration-200 ease-in-out">
+        <div className="absolute top-32 right-4 sm:right-10 w-64 sm:w-72 bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 z-[2000] transition-all duration-200 ease-in-out">
           <div className="flex justify-between items-center mb-2">
             <span className="text-[#0077b6] font-semibold text-sm">
               Select Location
@@ -90,17 +86,17 @@ const FiltersOverlay = () => {
           </div>
 
           <div className="flex flex-col py-1 max-h-[50%] overflow-y-auto">
-            {places.map((place) => (
+            {aois.map((aoi) => (
               <div
-                key={place}
+                key={aoi.aoi_id}
                 className={`px-4 py-2 cursor-pointer text-sm transition-all rounded-md ${
-                  selectedPlace === place
+                  selectedAOI?.aoi_id === aoi.aoi_id
                     ? "bg-[#00b4d8]/30 text-[#0077b6] font-medium"
                     : "text-black hover:bg-white/80"
                 }`}
-                onClick={() => selectPlace(place)}
+                onClick={() => selectPlace(aoi)}
               >
-                {place}
+                {formatAOIName(aoi.aoi_name)}
               </div>
             ))}
           </div>
@@ -109,7 +105,7 @@ const FiltersOverlay = () => {
 
       {/* --- Floating Filters Dropdown --- */}
       {showFilters && (
-        <div className="absolute top-[50px] right-10 w-[270px] bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 z-[2000] transition-all duration-200 ease-in-out">
+        <div className="absolute top-32 right-4 sm:right-10 w-64 sm:w-72 bg-white/40 backdrop-blur-xl border border-white/40 rounded-4xl shadow-lg px-4 py-3 z-[2000] transition-all duration-200 ease-in-out">
           <div className="flex justify-between items-center mb-2">
             <button
               type="button"
