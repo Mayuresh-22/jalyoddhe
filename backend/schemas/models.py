@@ -36,3 +36,8 @@ class AOIEntry(BaseModel):
 
 class AOIUpdateEntry(BaseModel):
     aois: List[AOIEntry] = Field(...)
+
+
+class LoginPayload(BaseModel):
+    email: str = Field(...)
+    secret_key: str = Field(...)
