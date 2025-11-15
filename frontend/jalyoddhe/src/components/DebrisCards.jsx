@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import pin from "../assets/pin.png";
 import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
 
 const labelColors = {
   "Marine Debris": "#D32F2F",
@@ -244,7 +243,6 @@ const DebrisCards = ({ tiles = [], loading, error, onViewOnMap }) => {
               wide 
               onClick={() => onViewOnMap && onViewOnMap(tiles[selectedIndex])} 
             />
-            <SecondaryButton text="Generate Report" onClick={() => alert("Generating Report...")} />
           </div>
 
         </Col>

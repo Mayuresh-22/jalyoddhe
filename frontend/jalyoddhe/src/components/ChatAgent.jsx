@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaComments } from "react-icons/fa";
 
 const ChatAgent = () => {

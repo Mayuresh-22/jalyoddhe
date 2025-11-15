@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import HeroSection from "../components/HeroSection";
 import MapSection from "../components/MapSection";
 import DebrisCards from "../components/DebrisCards";
-import Footer from "../components/Footer";
-import ChatAgent from "../components/ChatAgent";
 import { getAOIs, getTiles } from "../utils/api";
 
 const Home = () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { formatAOIName } from "../utils/api";
 
