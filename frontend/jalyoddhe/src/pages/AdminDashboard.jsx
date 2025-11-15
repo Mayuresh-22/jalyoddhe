@@ -281,7 +281,7 @@ const AdminDashboard = () => {
     <div className="!bg-[#031217] !text-white inter-300 !min-h-screen">
       <NavbarComponent isDashboardPage={true} />
 
-      <div className="px-4 sm:px-6 lg:px-10 pt-20 sm:pt-24 pb-6 space-y-12">
+      <div className="!px-12 !sm:px-6 !lg:px-20 pt-20 sm:pt-24 pb-6 space-y-12">
 
         {/* Header Section*/}
         <section className="mb-10">
