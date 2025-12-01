@@ -62,12 +62,21 @@ Server → http://localhost:5000
 Create a .env file:
 
 ```bash
-# Inference related
-LABELS="['Marine Debris','Dense Sargassum','...']"
+# Inference related (following variables are set by default based on trial and error, and what we felt was right; you can always change them)
+LABELS="['Marine Debris', 'Dense Sargassum', 'Sparse Sargassum', 'Natural Organic Material', 'Ship', 'Clouds', 'Marine Water', 'Sediment-Laden Water', 'Foam', 'Turbid Water', 'Shallow Water']"
 ALLOWED_LABEL_INDEX="[0,1,2,3,7,8]"
 PER_CLASS_THRESHOLD="[
-0.7987, 0.0436, 0.3312, 0.1701, 0.4619,
-0.2220, 0.1658, 0.7626, 0.4383, 0.5384, 0.2443
+    0.7987891435623169,
+    0.04360494390130043,
+    0.33120080828666687,
+    0.17012758553028107,
+    0.46195462346076965,
+    0.22206197679042816,
+    0.16580776870250702,
+    0.7626513838768005,
+    0.4333387613296509,
+    0.5384535193443298,
+    0.2443457841873169
 ]"
 RESNET_MODEL_NAME="/models/multilabel_classification/saved_models/model-file-name.pth"
 
@@ -106,6 +115,8 @@ POST /api/admin/login
 POST /api/pipeline/run
 ```
 Starts tile-based multi-label inference using Modal.
+
+**Note:** The backend and inference script were written to deploy on Modal's infa. If you are planning to host it on another platform, you'll need to make changes to app.py (backend) and modal_inference_script.py (inference script)
 
 ### Pipeline Status
 ```bash
