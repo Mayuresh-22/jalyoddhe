@@ -1,18 +1,141 @@
-# React + Vite
+# Jalyoddhe – Frontend
+## Marine Debris Detection & Insights Dashboard  
+**Built with React + Vite, Tailwind CSS, Bootstrap, FontAwesome, and Leaflet (OpenStreetMap)**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The Jalyoddhe frontend is a fast, responsive web application that visualizes marine debris, coastal pollution insights, and environmental information using interactive maps and reusable UI components.  
+It consumes REST APIs from the backend and supports both user-facing and admin interfaces.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+### **Core Technologies**
+- **React + Vite**
+- **Tailwind CSS**
+- **Bootstrap 5**
+- **Leaflet + OpenStreetMap**
+- **FontAwesome Icon Library**
+- **Custom SVG icons (stored in `/assets`)**
+---
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## 📁 Project Structure
+```bash
+src/
+│
+├── assets/
+│   ├── about.jpg
+│   ├── hero.jpg
+│   ├── hero.png
+│   ├── logo.png
+│   ├── mission.png
+│   ├── vision.png
+│   └── pin.png
+│
+├── components/
+│   ├── DebrisCards.jsx
+│   ├── FiltersOverlay.jsx
+│   ├── Footer.jsx
+│   ├── HeroSection.jsx
+│   ├── MapSection.jsx
+│   ├── Navbar.jsx
+│   ├── PrimaryButton.jsx
+│   ├── ScrollToTop.jsx
+│   └── SecondaryButton.jsx
+│
+├── pages/
+│   ├── Home.jsx
+│   ├── About.jsx
+│   ├── AdminLogin.jsx
+│   └── AdminDashboard.jsx
+│
+├── utils/
+│   └── (helper functions)
+│
+├── App.jsx
+├── index.css
+└── main.jsx
+```
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## Installation & Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### **Install dependencies**
+```bash
+npm install
+```
+
+### Start Development Server
+
+```bash
+npm run dev
+```
+Access the app at: http://localhost:5173
+
+### Build for Production
+```bash
+npm run build
+```
+### Preview Production Build
+```bash
+npm run preview
+```
+
+### Environment Variables
+Create a .env.local file:
+```bash
+VITE_ENV=LOCAL
+VITE_API_BASE_URL_LOCAL=...
+VITE_API_BASE_URL_PROD=...
+```
+
+## Interactive Map (Leaflet + OpenStreetMap)
+The application uses:
+- Leaflet (JS map library)
+- OpenStreetMap tiles
+- Custom map markers
+- On-map filter overlay
+
+All map logic is handled inside MapSection.jsx and FiltersOverlay.jsx.
+
+## Icons Used
+### FontAwesome Icons
+Install:
+
+```bash
+npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
+```
+
+## Key Components Overview
+| Component          | Purpose                           |
+|--------------------|-----------------------------------|
+| Navbar.jsx         | Website navigation bar            |
+| HeroSection.jsx    | Home page hero banner             |
+| MapSection.jsx     | Leaflet-based interactive map     |
+| FiltersOverlay.jsx | Filters for debris categories     |
+| DebrisCards.jsx    | Displays pollution/debris info    |
+| Footer.jsx         | Website footer                    |
+| PrimaryButton.jsx  | Styled primary button             |
+| SecondaryButton.jsx| Styled secondary button           |
+| ScrollToTop.jsx	 | Auto-scroll feature               |
+
+## Pages Overview
+| Page              | Description                     |
+|--------------------|---------------------------------|
+| Home.jsx          | Hero section + map + filters     |
+| About.jsx         | About, mission, vision content   |
+| AdminLogin.jsx    | Admin authentication page        |
+| AdminDashboard.jsx| Admin data & controls            |
+
+## Contributing
+Keep components modular
+- Use Tailwind for layout & spacing
+- Use Bootstrap for grid layouts
+- Store all images in /assets
+- Keep helper functions inside /utils
+- Follow existing folder structure
+
+## Credits
+**Team Jalyoddhe**
+* Mayuresh Choudhary
+* Yashshri Mule
