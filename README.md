@@ -3,7 +3,7 @@
 # Jalyoddhe
 From space to shore - Detect, Protect, Restore.
 
-Jalyoddhe is a full-stack system designed to detect and visualize coastal/marine pollution using satellite imagery and AI.
+Jalyoddhe is a full-stack system designed to detect and visualise coastal/marine pollution using satellite imagery and AI.
 
 It provides:
 - Inference Pipeline (tile-based, multi-label classification)
@@ -11,27 +11,30 @@ It provides:
 - Database-backed AOI & tile management
 - Admin tools for triggering pipelines and managing AOIs
 
-This repository contains the full monorepo including backend, frontend, and utility modules.
+This repository contains the full monorepo, including backend, frontend, and utility modules.
 
-## 📁 Repository Structure
+## Watch Jalyoddhe in Action
+(Click on the image)
+<a href="https://youtu.be/ifhzBgxAaT4"><img width="1531" alt="logo" src="https://github.com/user-attachments/assets/d3fbd28a-2cc5-4e94-842a-1d409405784f" /></a>
+
+
+## Repository Structure
 ```bash
 jalyoddhe/
 │
 ├── backend/                # FastAPI + Modal inference pipeline + database layer
 │   └── README.md           # Backend-specific detailed documentation
 │
-├── frontend/               # React + Vite dashboard (map, admin UI, chatbot)
+├── frontend/               # React + Vite dashboard (map, admin UI)
 │   └── README.md           # Frontend-specific detailed documentation
 │
-├── models/                 # (Optional) model training notebooks / experiments
+├── models/                 # Model training notebooks/experiments
 │
 ├── utils/                  # Shared helper scripts (optional global utilities)
 │
 ├── .gitignore
-└── README.md               # Root-level overview (this file)
+└── README.md
 ```
-
-Detailed documentation for each subsystem is inside its respective folder.
 
 ## Project Overview
 ### Frontend
@@ -47,13 +50,14 @@ Detailed documentation for each subsystem is inside its respective folder.
     - Admin login & admin dashboard
 
 ### See full frontend docs:
-`frontend/README.md`
+[frontend/jalyoddhe/README.md](https://github.com/Mayuresh-22/jalyoddhe/tree/main/frontend/jalyoddhe)
+
 --- 
 
 ### Backend
 - Built using FastAPI
 - Integrated with Modal for running large inference pipelines
-- Connects to external DB (Supabase or similar)
+- Connects to external DB (Supabase)
 - Provides REST APIs for:
   - AOIs
   - Tiles
@@ -66,7 +70,8 @@ Detailed documentation for each subsystem is inside its respective folder.
   - Prediction storage
 
 ### See full backend docs:
-`backend/README.md`
+[backend/README.md](https://github.com/Mayuresh-22/jalyoddhe/tree/main/backend)
+
 ---
 
 ### AI & Pipeline
@@ -77,7 +82,11 @@ Detailed documentation for each subsystem is inside its respective folder.
   - services/Tiler.py
   - services/Model.py
   - services/InferencePipeline.py
-- Heavy compute runs through Modal serverless infrastructure
+- Heavy compute runs through the Modal serverless infrastructure
+
+## ML model
+If you are looking to train ResNet50 with attention pooling, use this [training code](https://github.com/Mayuresh-22/jalyoddhe/tree/main/models/multilabel_classification). Clone the repo on Google Colab, and you'll be good to go.
+**For pre-trained model, email us at:** [mayureshchoudhary22@gmail.com](mailto:mayureshchoudhary22@gmail.com)
 
 ## Quick Start (High-Level)
 ### 1. Clone the Repository
@@ -98,18 +107,18 @@ Runs on: http://localhost:5173
 ### 3. Start Backend
 ```bash
 cd backend
-pip install -r requirements.txt
-uvicorn app:web_app --reload --port 5000
+uv sync
+uvicorn app:web_app --reload
 ```
 
-Runs on: http://localhost:5000
+Runs on: http://localhost:8000
 
 ### 4. Environment Setup
 
 You must create environment files in:
 ```bash
 frontend/jalyoddhe/.env.local
-backend/.env
+backend/.env.local
 ```
 
 Content examples for each are documented inside the respective READMEs:
