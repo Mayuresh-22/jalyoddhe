@@ -85,7 +85,7 @@ jalyoddhe/
 - Heavy compute runs through the Modal serverless infrastructure
 
 ## ML model
-If you are looking to train ResNet50 with attention pooling, use this [training code](https://github.com/Mayuresh-22/jalyoddhe/tree/main/models/multilabel_classification). Clone the repo on Google Colab, and you'll be good to go.
+If you are looking to train Multilabel ResNet50 with Attention Pooling, use this [training code](https://github.com/Mayuresh-22/jalyoddhe/tree/main/models/multilabel_classification). Clone the repo on Google Colab, and you'll be good to go.
 **For pre-trained model, email us at:** [mayureshchoudhary22@gmail.com](mailto:mayureshchoudhary22@gmail.com)
 
 ## Quick Start (High-Level)
