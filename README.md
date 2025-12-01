@@ -164,6 +164,10 @@ Content examples for each are documented inside the respective READMEs:
 - Keep AI-related code isolated in /services or /nn_models
 - Use environment variables instead of hardcoding credentials
 
+## Attribution:
+* Inspired from: [https://github.com/marine-debris/marine-debris.github.io](https://github.com/marine-debris/marine-debris.github.io)
+* Marida dataset: [https://zenodo.org/records/5152217](https://zenodo.org/records/5152217)
+
 ## Team
 * Mayuresh Choudhary
 * Yashshri Mule
